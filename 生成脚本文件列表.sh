@@ -1,0 +1,1 @@
+find ./QiuUTMT/Resources/Raw -type f -printf '%P\n' > scriptpath.txt
