@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="GUTMT - 脚本执行"
+             x:Class="QiuUTMT.LoadScriptPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <VerticalStackLayout
+                Padding="30,0"
+                Spacing="25">
+                <Button
+                    x:Name="OpenFileBtn"
+                    Text="打开文件..." 
+                    Clicked="OpenFileBtn_OnClicked"
+                    HorizontalOptions="Fill" />
+                <Button
+                    x:Name="OpenRawFileBtn"
+                    Text="内置脚本" 
+                    Clicked="OpenRawFileBtn_OnClicked"
+                    HorizontalOptions="Fill" />
+                <Label
+                    x:Name="LabelOutput"/>
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

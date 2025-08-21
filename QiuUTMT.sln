@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QiuUTMT", "QiuUTMT\QiuUTMT.csproj", "{A9EE804A-114A-467E-AA94-2822EDA909B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndertaleModLib", "UndertaleModLib\UndertaleModLib.csproj", "{A9B4265A-E4B0-4579-8405-060AC24B1612}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Underanalyzer", "Underanalyzer\Underanalyzer\Underanalyzer.csproj", "{0A78D41D-CBFC-4B2E-A461-266404367737}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A9EE804A-114A-467E-AA94-2822EDA909B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9EE804A-114A-467E-AA94-2822EDA909B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9EE804A-114A-467E-AA94-2822EDA909B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9EE804A-114A-467E-AA94-2822EDA909B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9B4265A-E4B0-4579-8405-060AC24B1612}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9B4265A-E4B0-4579-8405-060AC24B1612}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9B4265A-E4B0-4579-8405-060AC24B1612}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9B4265A-E4B0-4579-8405-060AC24B1612}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{0A78D41D-CBFC-4B2E-A461-266404367737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A78D41D-CBFC-4B2E-A461-266404367737}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A78D41D-CBFC-4B2E-A461-266404367737}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A78D41D-CBFC-4B2E-A461-266404367737}.Release|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+EndGlobal

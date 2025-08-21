@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QiuUTMT.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+
+            <Label
+                Text="Genouka UTMT4A"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+            <Label
+                x:Name="LabelProjectName"
+                Text="未打开data文件"
+                />
+            <Button
+                x:Name="OpenBtn"
+                Text="打开" 
+                Clicked="OnOpenClicked"
+                HorizontalOptions="Fill" />
+            <Button
+                x:Name="SaveBtn"
+                Text="保存" 
+                IsEnabled="False"
+                HorizontalOptions="Fill" />
+            <Button
+                x:Name="DataEditBtn"
+                Text="数据编辑窗" 
+                IsEnabled="False"
+                Clicked="OnInfoShowClicked"
+                HorizontalOptions="Fill" />
+            <Button
+                x:Name="RunScriptBtn"
+                Text="加载C#脚本" 
+                Clicked="OnRunScriptClicked"
+                IsEnabled="False"
+                HorizontalOptions="Fill" />
+            <Label
+                x:Name="LabelInfo"
+                Text=""
+            />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
