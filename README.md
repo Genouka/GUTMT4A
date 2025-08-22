@@ -5,7 +5,7 @@
 
 <p>(Both code and document are written in Chinese now.If you wish to have your language,welcome to PR one!)</p>
 
-<p>这是一个新的可跨平台轻松运行的UTMT GUI客户端。</p>
+<p>这是一个新的可跨平台轻松运行的Undertale Mod Tool GUI客户端，尤其为Android端适配。</p>
 
 </div>
 
