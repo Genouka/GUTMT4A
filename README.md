@@ -12,11 +12,18 @@
 
 ![GUTMT4A (2)](https://github.com/user-attachments/assets/4ba85607-3027-49c2-a1b5-f963aded16cc)
 
-# 支持特性
+## 支持特性
 * [x] 查看文件概览
 * [x] 查看数据
 * [x] 运行C#脚本
 * [ ] 导出保存的文件
 
-# 许可证
-GPL 3.0 or later
+## 许可证
+
+禁止上传到谷歌商店等应用商店或平台，以及加入广告等内容后重新分发。
+
+基于GPL3.0或更新版本进行授权
+ 
+Prohibit uploading to app stores or platforms such as Google Play, as well as redistributing content after adding advertisements.
+
+Licensed under GPL 3.0 or later.
