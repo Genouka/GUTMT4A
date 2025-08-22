@@ -6,7 +6,7 @@ namespace UTMTdrid;
 
 public class MAUIBridge
 {
-    public static async Task<FileResult?> PickAndShow(PickOptions options)
+    public static async Task<FileResult?> PickFile(PickOptions options)
     {
         try
         {
@@ -30,18 +30,24 @@ public class MAUIBridge
 
         return null;
     }
-    // public static async Task<string?> SaveFile(CancellationToken cancellationToken)
-    // {
-    //     var fileSaverResult = await FileSaver.Default.SaveAsync("test.txt", stream, cancellationToken);
-    //     if (fileSaverResult.IsSuccessful)
-    //     {
-    //         return fileSaverResult.FilePath;
-    //     }
-    //     else
-    //     {
-    //         return null;
-    //     }
-    // }
+    public static async Task<string?> SaveFile(string? recommandName,CancellationToken cancellationToken)
+    {
+        var tcs = new TaskCompletionSource<string>();
+        MainThread.BeginInvokeOnMainThread(async () =>
+        {
+            var stream = new MemoryStream();
+            var result = await FileSaver.Default.SaveAsync(recommandName??"c.bin", stream, cancellationToken);
+            if (result.IsSuccessful){
+                new FileInfo(result.FilePath).Delete();
+                tcs.SetResult(result.FilePath);
+            }
+            else
+            {
+                tcs.SetResult(null);
+            }
+        });
+        return await tcs.Task;
+    }
     public static async Task<string?> PickFolder(CancellationToken cancellationToken)
     {
         var tcs = new TaskCompletionSource<string>();
@@ -58,4 +64,9 @@ public class MAUIBridge
         });
         return await tcs.Task;
     }
+    public delegate Task<bool>  AskDialogImpt(string title, string message);
+    public static AskDialogImpt? AskDialog { set; get; }
+    
+    public delegate Task<string>  InputDialogImpt(string title, string messagem);
+    public static InputDialogImpt? InputDialog { set; get; }
 }

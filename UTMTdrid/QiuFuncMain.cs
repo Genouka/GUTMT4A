@@ -30,7 +30,7 @@ namespace UTMTdrid;
 /// </summary>
 
 [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
-public partial class CliMain : IScriptInterface
+public partial class QiuFuncMain : IScriptInterface
 {
     #region Properties
 
@@ -78,7 +78,7 @@ public partial class CliMain : IScriptInterface
 
     private string savedMsg, savedStatus;
     private double savedValue, savedValueMax;
-    private Page? MAUI_Page;
+    //private Page? MAUI_Page;
     private static DelegateOutput? Genouka_callback;
 
     /// <summary>
@@ -100,7 +100,7 @@ public partial class CliMain : IScriptInterface
     /// <returns>Result code of the program.</returns>
     
     [DynamicDependency("DecompilerSettings", "ToolInfo", "UndertaleModLib")]
-    public CliMain(FileInfo datafile, FileInfo[] scripts, FileInfo output, bool verbose = false,
+    public QiuFuncMain(FileInfo datafile, FileInfo[] scripts, FileInfo output, bool verbose = false,
         bool interactive = false)
     {
         this.Verbose = verbose;
@@ -142,7 +142,7 @@ public partial class CliMain : IScriptInterface
         }
     }
 
-    public CliMain(FileInfo datafile, bool verbose, DirectoryInfo output = null)
+    public QiuFuncMain(FileInfo datafile, bool verbose, DirectoryInfo output = null)
     {
         if (datafile == null) throw new ArgumentNullException(nameof(datafile));
 
@@ -201,13 +201,13 @@ public partial class CliMain : IScriptInterface
     /// <returns><see cref="EXIT_SUCCESS"/> and <see cref="EXIT_FAILURE"/> for being successful and failing respectively</returns>
     private static int Load(LoadOptions options)
     {
-        CliMain program;
+        QiuFuncMain program;
 
         // Try to load necessary values.
         // This can throw if mandatory arguments are not given, in which case we want to exit cleanly without a stacktrace.
         try
         {
-            program = new CliMain(options.Datafile, options.Scripts, options.Output, options.Verbose,
+            program = new QiuFuncMain(options.Datafile, options.Scripts, options.Output, options.Verbose,
                 options.Interactive);
         }
         catch (Exception e)
@@ -251,10 +251,10 @@ public partial class CliMain : IScriptInterface
     /// <returns><see cref="EXIT_SUCCESS"/> and <see cref="EXIT_FAILURE"/> for being successful and failing respectively</returns>
     private static int Info(InfoOptions options)
     {
-        CliMain program;
+        QiuFuncMain program;
         try
         {
-            program = new CliMain(options.Datafile, options.Verbose);
+            program = new QiuFuncMain(options.Datafile, options.Verbose);
         }
         catch (FileNotFoundException e)
         {
@@ -273,10 +273,10 @@ public partial class CliMain : IScriptInterface
     /// <returns><see cref="EXIT_SUCCESS"/> and <see cref="EXIT_FAILURE"/> for being successful and failing respectively</returns>
     private static int Dump(DumpOptions options)
     {
-        CliMain program;
+        QiuFuncMain program;
         try
         {
-            program = new CliMain(options.Datafile, options.Verbose, options.Output);
+            program = new QiuFuncMain(options.Datafile, options.Verbose, options.Output);
         }
         catch (FileNotFoundException e)
         {
@@ -324,10 +324,10 @@ public partial class CliMain : IScriptInterface
     /// <returns><see cref="EXIT_SUCCESS"/> and <see cref="EXIT_FAILURE"/> for being successful and failing respectively</returns>
     private static int Replace(ReplaceOptions options)
     {
-        CliMain program;
+        QiuFuncMain program;
         try
         {
-            program = new CliMain(options.Datafile, null, options.Output, options.Verbose);
+            program = new QiuFuncMain(options.Datafile, null, options.Output, options.Verbose);
         }
         catch (FileNotFoundException e)
         {
@@ -917,9 +917,9 @@ public partial class CliMain : IScriptInterface
     public void RunCSharpCodePublic2(DelegateOutput callback, Page page, string code, string scriptFile = null)
     {
         Genouka_callback = callback;
-        this.MAUI_Page = page;
+        //this.MAUI_Page = page;
         if (Verbose)
-            callback($"尝试执行 '{scriptFile ?? "代码段"}'...");
+            callback($"尝试执行 '{scriptFile ?? "代码段"}'...\n");
 
         try
         {
@@ -993,7 +993,7 @@ public partial class CliMain : IScriptInterface
     /// </summary>
     /// <param name="outputPath">The path where to save the data.</param>
     /// <exception cref="IOException">If saving fails</exception>
-    private void SaveDataFile(string outputPath)
+    public void SaveDataFile(string outputPath)
     {
         if (Verbose)
             GenoukaUI_WriteLine($"Saving new data file to '{outputPath}'");
@@ -1127,5 +1127,9 @@ public partial class CliMain : IScriptInterface
         var thing = String.Format(format, arg0);
         if (Genouka_callback is not null) Genouka_callback(thing);
         else Debug.Write(thing);
+    }
+    public static void clearCallbacks()
+    {
+        Genouka_callback = null;
     }
 }

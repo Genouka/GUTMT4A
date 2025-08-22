@@ -21,7 +21,7 @@ namespace UTMTdrid;
 // Everything that gets inherited (methods, attributes) from IScriptInterface gets put here
 // in order to have the inherited stuff separated from normal stuff.
 
-public partial class CliMain : IScriptInterface
+public partial class QiuFuncMain : IScriptInterface
 {
     #region Inherited UMTLib Properties
 
@@ -103,7 +103,8 @@ public partial class CliMain : IScriptInterface
     public bool ScriptQuestion(string message)
     {
         GenoukaUI_Write($"{message} (Y/N) ");
-        bool isInputYes = MAUI_Page.DisplayAlert("Question?", "Would you like to play a game", "Yes", "No").Result;
+        //bool isInputYes = MAUI_Page.DisplayAlert("Question?", "Would you like to play a game", "Yes", "No").Result;
+        bool isInputYes = MAUIBridge.AskDialog("询问",message).Result;
         //bool isInputYes = Console.ReadKey(false).Key == ConsoleKey.Y;
         GenoukaUI_WriteLine("");
         return isInputYes;
@@ -378,8 +379,7 @@ public partial class CliMain : IScriptInterface
         DirectoryInfo directoryInfo;
         do
         {
-            GenoukaUI_WriteLine("Please enter a path (or drag and drop) to a valid directory:");
-            GenoukaUI_Write("Path: ");
+            GenoukaUI_WriteLine("请选择目录");
             path = RemoveQuotes(MAUIBridge.PickFolder(CancellationToken.None).Result);
             if (string.IsNullOrEmpty(path))
             {
@@ -399,9 +399,8 @@ public partial class CliMain : IScriptInterface
         FileInfo fileInfo;
         do
         {
-            GenoukaUI_WriteLine("Please enter a path (or drag and drop) to a valid file:");
-            GenoukaUI_Write("Path: ");
-            path = RemoveQuotes(MAUIBridge.PickAndShow(PickOptions.Default).Result.FullPath);
+            GenoukaUI_WriteLine("请选择文件");
+            path = RemoveQuotes(MAUIBridge.PickFile(PickOptions.Default).Result.FullPath);
             if (string.IsNullOrEmpty(path))
             {
                 return null;
@@ -419,23 +418,23 @@ public partial class CliMain : IScriptInterface
         string path;
         do
         {
-            GenoukaUI_WriteLine("Please enter a path (or drag and drop) to save the file:");
-            GenoukaUI_Write("Path: ");
-            string? dir=MAUIBridge.PickFolder(CancellationToken.None).Result;
-            if (dir is null)
-            {
-                dir = "/sdcard/";
-            }
+            GenoukaUI_WriteLine("请选择路径");
+            // string? dir=MAUIBridge.PickFolder(CancellationToken.None).Result;
+            // if (dir is null)
+            // {
+            //     dir = "/sdcard/";
+            // }
             string result;
-            if (MAUI_Page is null)
-            {
-                result = "save.bin";
-            }
-            else
-            {
-                result = MAUI_Page.DisplayPromptAsync("保存到文件", "选择的路径为"+dir+"\n输入文件名").Result;
-            }
-            path = RemoveQuotes(dir+result);
+            // if (MAUI_Page is null)
+            // {
+            //     result = "save.bin";
+            // }
+            // else
+            // {
+            //     result = MAUI_Page.DisplayPromptAsync("保存到文件", "选择的路径为"+dir+"\n输入文件名").Result;
+            // }
+            result=MAUIBridge.SaveFile("file"+defaultExt,CancellationToken.None).Result;
+            path = RemoveQuotes(result);
 
             if (Directory.Exists(path))
             {
@@ -506,10 +505,11 @@ public partial class CliMain : IScriptInterface
     /// <inheritdoc/>
     public string SimpleTextInput(string title, string label, string defaultValue, bool allowMultiline, bool showDialog = true)
     {
-        if (MAUI_Page != null)
-        {
-            return MAUI_Page.DisplayPromptAsync(title, label,initialValue:defaultValue).Result;
-        }
+        // if (MAUI_Page != null)
+        // {
+        //     return MAUI_Page.DisplayPromptAsync(title, label,initialValue:defaultValue).Result;
+        // }
+        return MAUIBridge.InputDialog(title, label).Result;
         // default value gets ignored, as it doesn't really have a use in CLI.
         throw new NotImplementedException("Not yet implemented");
         string result = "";

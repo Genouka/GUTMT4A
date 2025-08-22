@@ -29,7 +29,7 @@ public partial class LoadScriptPage : ContentPage
         {
             await Task.Run(async () =>
             {
-                bool isSuccessful = CliMainSingle.cliMain.RunCSharpFilePublic(result.FullPath,
+                bool isSuccessful = QiuFuncMainSingle.QiuFuncMain.RunCSharpFilePublic(result.FullPath,
                     line => { MainThread.BeginInvokeOnMainThread(() => { LabelOutput.Text += line; }); }, this);
             });
         }
@@ -52,7 +52,7 @@ public partial class LoadScriptPage : ContentPage
             var contents = reader.ReadToEnd();
             await Task.Run(async () =>
             {
-                CliMainSingle.cliMain.RunCSharpCodePublic2(line =>
+                QiuFuncMainSingle.QiuFuncMain.RunCSharpCodePublic2(line =>
                 {
                     MainThread.BeginInvokeOnMainThread(() =>
                     {

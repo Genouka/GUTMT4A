@@ -27,7 +27,7 @@ public partial class DetailInfoInternative : ContentPage
         InitializeComponent();
         BindingContext = this;
         var sampleObject = CreateSampleObject();
-        SetCurrentObject(CliMainSingle.cliMain, "GM数据对象");
+        SetCurrentObject(QiuFuncMainSingle.QiuFuncMain, "GM数据对象");
     }
 
     private object currentObject;

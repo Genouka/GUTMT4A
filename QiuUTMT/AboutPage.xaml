@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="GUTMT - 关于"
+             x:Class="QiuUTMT.AboutPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <VerticalStackLayout
+                Padding="30,0"
+                Spacing="25">
+                <Label
+                    Text="本程序由 秋冥散雨_Genouka 编写"/>
+                <Label
+                    Text="本程序引用了UndertaleModLib和Underanalyzer库。"/>
+                <Label
+                    Text="本软件是开源软件，遵循许可证：GPL3.0或更新版本协议。"/>
+                <Button
+                    x:Name="HomepageBtn"
+                    Text="访问个人主页" 
+                    Clicked="OnHomepageBtnClicked"
+                    HorizontalOptions="Fill" />
+                <Button
+                    x:Name="ProjectBtn"
+                    Text="查看本项目开源代码(Github)" 
+                    Clicked="OnProjectBtnClicked"
+                    HorizontalOptions="Fill" />
+                <Button
+                    x:Name="NewVersionBtn"
+                    Text="检查更新(本软件不会自动检查更新)" 
+                    Clicked="OnNewVersionBtnClicked"
+                    HorizontalOptions="Fill" />
+                <Image
+                    Source="genouka_mm_reward_qrcode.png"/>
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

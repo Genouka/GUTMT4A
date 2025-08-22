@@ -25,18 +25,24 @@
                 x:Name="SaveBtn"
                 Text="保存" 
                 IsEnabled="False"
+                Clicked="OnSaveBtnClicked"
                 HorizontalOptions="Fill" />
             <Button
                 x:Name="DataEditBtn"
-                Text="数据编辑窗" 
+                Text="数据窗格" 
                 IsEnabled="False"
                 Clicked="OnInfoShowClicked"
                 HorizontalOptions="Fill" />
             <Button
                 x:Name="RunScriptBtn"
-                Text="加载C#脚本" 
+                Text="脚本窗格" 
                 Clicked="OnRunScriptClicked"
                 IsEnabled="False"
+                HorizontalOptions="Fill" />
+            <Button
+                x:Name="AboutBtn"
+                Text="关于" 
+                Clicked="OnAboutBtnClicked"
                 HorizontalOptions="Fill" />
             <Label
                 x:Name="LabelInfo"

@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Runtime;
+using UTMTdrid;
 
 namespace QiuUTMT;
 
@@ -12,4 +13,12 @@ public class MainApplication : MauiApplication
     }
 
     protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+
+    public override void OnCreate()
+    {
+        base.OnCreate();
+        Com.Kongzue.Dialogx.DialogX.Init(this);
+        MAUIBridge.AskDialog = Bindme.dAskDialog;
+        MAUIBridge.InputDialog = Bindme.dInputDialog;
+    }
 }
