@@ -1,7 +1,9 @@
-﻿using UndertaleModLib.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+using UndertaleModLib.Models;
 
 namespace UndertaleModLib
 {
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface UndertaleObject
     {
         /// <summary>
@@ -29,6 +31,7 @@ namespace UndertaleModLib
         
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface UndertaleObjectWithBlobs
     {
         /// <summary>
@@ -38,6 +41,7 @@ namespace UndertaleModLib
         void SerializeBlobBefore(UndertaleWriter writer);
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface PaddedObject // TODO: use this everywhere
     {
         /// <summary>
@@ -53,6 +57,7 @@ namespace UndertaleModLib
         void UnserializePadding(UndertaleReader reader);
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface PrePaddedObject
     {
 
@@ -92,10 +97,12 @@ namespace UndertaleModLib
         ParticleSystem = 13
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface UndertaleResource : UndertaleObject
     {
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface UndertaleNamedResource : UndertaleResource
     {
         /// <summary>
@@ -104,6 +111,7 @@ namespace UndertaleModLib
         UndertaleString Name { get; set; }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface ISearchable
     {
         /// <summary>
@@ -115,6 +123,7 @@ namespace UndertaleModLib
         bool SearchMatches(string filter);
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface IStaticChildObjCount
     {
         /// <summary>
@@ -123,6 +132,7 @@ namespace UndertaleModLib
         /// </summary>
         public static readonly uint ChildObjectCount = 0;
     }
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface IStaticChildObjectsSize
     {
         /// <summary>

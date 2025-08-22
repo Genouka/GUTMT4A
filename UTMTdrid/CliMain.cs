@@ -15,6 +15,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using UndertaleModLib;
 using UndertaleModLib.Compiler;
+using UndertaleModLib.Decompiler;
 using UndertaleModLib.Models;
 using UndertaleModLib.Scripting;
 using UndertaleModLib.Util;
@@ -27,6 +28,8 @@ namespace UTMTdrid;
 /// <summary>
 /// Main CLI Program
 /// </summary>
+
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
 public partial class CliMain : IScriptInterface
 {
     #region Properties
@@ -96,8 +99,9 @@ public partial class CliMain : IScriptInterface
     /// <param name="args">Arguments passed on to program.</param>
     /// <returns>Result code of the program.</returns>
     
-
-    public CliMain(FileInfo datafile, FileInfo[] scripts, FileInfo output, bool verbose = false, bool interactive = false)
+    [DynamicDependency("DecompilerSettings", "ToolInfo", "UndertaleModLib")]
+    public CliMain(FileInfo datafile, FileInfo[] scripts, FileInfo output, bool verbose = false,
+        bool interactive = false)
     {
         this.Verbose = verbose;
         IsInteractive = false;
@@ -105,27 +109,37 @@ public partial class CliMain : IScriptInterface
         GenoukaUI_WriteLine($"Trying to load file: '{datafile.FullName}'");
 
         this.FilePath = datafile.FullName;
-        this.ExePath = Environment.CurrentDirectory;
-        this.Output = output;
+        this.ExePath = FileSystem.Current.CacheDirectory;
+        this.Output = output ?? new FileInfo(FileSystem.Current.CacheDirectory);
 
         this.Data = ReadDataFile(datafile, WarningHandler, this.Verbose ? MessageHandler : DummyHandler);
 
         FinishedMessageEnabled = true;
-        this.CliScriptOptions = ScriptOptions.Default
-            .AddImports("UndertaleModLib", "UndertaleModLib.Models", "UndertaleModLib.Decompiler",
-                "UndertaleModLib.Scripting", "UndertaleModLib.Compiler",
-                "UndertaleModLib.Util", "System", "System.IO", "System.Collections.Generic",
-                "System.Text.RegularExpressions")
-            .AddReferences(typeof(UndertaleObject).GetTypeInfo().Assembly,
-                GetType().GetTypeInfo().Assembly,
-                typeof(JsonConvert).GetTypeInfo().Assembly,
-                typeof(System.Text.RegularExpressions.Regex).GetTypeInfo().Assembly,
-                typeof(TextureWorker).GetTypeInfo().Assembly,
-                typeof(ImageMagick.MagickImage).GetTypeInfo().Assembly,
-                typeof(Underanalyzer.Decompiler.DecompileContext).Assembly)
-            // "WithEmitDebugInformation(true)" not only lets us to see a script line number which threw an exception,
-            // but also provides other useful debug info when we run UMT in "Debug".
-            .WithEmitDebugInformation(true);
+        try
+        {
+            var cliscript = ScriptOptions.Default;
+            cliscript=cliscript.WithAllowUnsafe(true);
+            cliscript=cliscript.WithEmitDebugInformation(true);
+            //var t=new UndertaleModLib.ToolInfo();
+            Debug.WriteLine(new UndertaleModLib.ToolInfo().GetHashCode());
+            Debug.WriteLine(new ImageMagick.AlphaOption().GetHashCode());
+            cliscript=cliscript.AddImports("UndertaleModLib", "UndertaleModLib.Models", "UndertaleModLib.Decompiler",
+                    "UndertaleModLib.Scripting", "UndertaleModLib.Compiler",
+                    "UndertaleModLib.Util", "System", "System.IO", "System.Collections.Generic",
+                    "System.Text.RegularExpressions");
+            cliscript=cliscript.AddReferences(typeof(UndertaleObject).GetTypeInfo().Assembly,
+                    GetType().GetTypeInfo().Assembly,
+                    typeof(JsonConvert).GetTypeInfo().Assembly,
+                    typeof(System.Text.RegularExpressions.Regex).GetTypeInfo().Assembly,
+                    typeof(TextureWorker).GetTypeInfo().Assembly,
+                    typeof(ImageMagick.MagickImage).GetTypeInfo().Assembly,
+                    typeof(Underanalyzer.Decompiler.DecompileContext).Assembly);
+            this.CliScriptOptions = cliscript;
+        }
+        catch (Exception ee)
+        {
+            Debug.WriteLine(ee.Message);
+        }
     }
 
     public CliMain(FileInfo datafile, bool verbose, DirectoryInfo output = null)
@@ -193,7 +207,8 @@ public partial class CliMain : IScriptInterface
         // This can throw if mandatory arguments are not given, in which case we want to exit cleanly without a stacktrace.
         try
         {
-            program = new CliMain(options.Datafile, options.Scripts, options.Output, options.Verbose, options.Interactive);
+            program = new CliMain(options.Datafile, options.Scripts, options.Output, options.Verbose,
+                options.Interactive);
         }
         catch (Exception e)
         {
@@ -271,8 +286,9 @@ public partial class CliMain : IScriptInterface
 
         if (program.Data.IsYYC())
         {
-            GenoukaUI_WriteLine("The game was made with YYC (YoYo Compiler), which means that the code was compiled into the executable. " +
-                              "There is thus no code to dump. Exiting.");
+            GenoukaUI_WriteLine(
+                "The game was made with YYC (YoYo Compiler), which means that the code was compiled into the executable. " +
+                "There is thus no code to dump. Exiting.");
             return EXIT_SUCCESS;
         }
 
@@ -416,77 +432,78 @@ public partial class CliMain : IScriptInterface
                 // 1 - run script
                 case ConsoleKey.NumPad1:
                 case ConsoleKey.D1:
+                {
+                    Console.Write("File path (you can drag and drop)? ");
+                    string path = RemoveQuotes(Console.ReadLine());
+                    GenoukaUI_WriteLine("Trying to run script {0}", path);
+                    try
                     {
-                        Console.Write("File path (you can drag and drop)? ");
-                        string path = RemoveQuotes(Console.ReadLine());
-                        GenoukaUI_WriteLine("Trying to run script {0}", path);
-                        try
-                        {
-                            RunCSharpFile(path);
-                        }
-                        catch (Exception)
-                        {
-                            // ignored
-                        }
-
-                        break;
+                        RunCSharpFile(path);
                     }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
+
+                    break;
+                }
 
                 // 2 - run c# string
                 case ConsoleKey.NumPad2:
                 case ConsoleKey.D2:
-                    {
-                        Console.Write("C# code line? ");
-                        string line = Console.ReadLine();
-                        ScriptPath = null;
-                        RunCSharpCode(line);
-                        break;
-                    }
+                {
+                    Console.Write("C# code line? ");
+                    string line = Console.ReadLine();
+                    ScriptPath = null;
+                    RunCSharpCode(line);
+                    break;
+                }
 
                 // Save and overwrite data file
                 case ConsoleKey.NumPad3:
                 case ConsoleKey.D3:
-                    {
-                        SaveDataFile(FilePath);
-                        break;
-                    }
+                {
+                    SaveDataFile(FilePath);
+                    break;
+                }
 
                 // Save data file to different path
                 case ConsoleKey.NumPad4:
                 case ConsoleKey.D4:
-                    {
-                        Console.Write("Where to save? ");
-                        string path = RemoveQuotes(Console.ReadLine());
-                        SaveDataFile(path);
-                        break;
-                    }
+                {
+                    Console.Write("Where to save? ");
+                    string path = RemoveQuotes(Console.ReadLine());
+                    SaveDataFile(path);
+                    break;
+                }
 
                 // Print out Quick Info
                 case ConsoleKey.NumPad5:
                 case ConsoleKey.D5:
-                    {
-                        CliQuickInfo();
-                        break;
-                    }
+                {
+                    CliQuickInfo();
+                    break;
+                }
 
                 // Quit
                 case ConsoleKey.NumPad6:
                 case ConsoleKey.D6:
-                    {
-                        GenoukaUI_WriteLine("Are you SURE? You can press 'n' and save before the changes are gone forever!!!");
-                        GenoukaUI_WriteLine("(Y/N)? ");
-                        bool isInputYes = Console.ReadKey(false).Key == ConsoleKey.Y;
-                        //GenoukaUI_WriteLine();
-                        if (isInputYes) return;
+                {
+                    GenoukaUI_WriteLine(
+                        "Are you SURE? You can press 'n' and save before the changes are gone forever!!!");
+                    GenoukaUI_WriteLine("(Y/N)? ");
+                    bool isInputYes = Console.ReadKey(false).Key == ConsoleKey.Y;
+                    //GenoukaUI_WriteLine();
+                    if (isInputYes) return;
 
-                        break;
-                    }
+                    break;
+                }
 
                 default:
-                    {
-                        GenoukaUI_WriteLine("Unknown input. Try using the upper line of digits on your keyboard.");
-                        break;
-                    }
+                {
+                    GenoukaUI_WriteLine("Unknown input. Try using the upper line of digits on your keyboard.");
+                    break;
+                }
             }
         }
     }
@@ -503,15 +520,20 @@ public partial class CliMain : IScriptInterface
         GenoukaUI_WriteLine("Bytecode version - {0}", Data.GeneralInfo.BytecodeVersion);
         GenoukaUI_WriteLine("Configuration name - {0}", Data.GeneralInfo.Config);
 
-        GenoukaUI_WriteLine($"{Data.Sounds.Count} Sounds, {Data.Sprites.Count} Sprites, {Data.Backgrounds.Count} Backgrounds");
+        GenoukaUI_WriteLine(
+            $"{Data.Sounds.Count} Sounds, {Data.Sprites.Count} Sprites, {Data.Backgrounds.Count} Backgrounds");
         GenoukaUI_WriteLine($"{Data.Paths.Count} Paths, {Data.Scripts.Count} Scripts, {Data.Shaders.Count} Shaders");
-        GenoukaUI_WriteLine($"{Data.Fonts.Count} Fonts, {Data.Timelines.Count} Timelines, {Data.GameObjects.Count} Game Objects");
-        GenoukaUI_WriteLine($"{Data.Rooms.Count} Rooms, {Data.Extensions.Count} Extensions, {Data.TexturePageItems.Count} Texture Page Items");
+        GenoukaUI_WriteLine(
+            $"{Data.Fonts.Count} Fonts, {Data.Timelines.Count} Timelines, {Data.GameObjects.Count} Game Objects");
+        GenoukaUI_WriteLine(
+            $"{Data.Rooms.Count} Rooms, {Data.Extensions.Count} Extensions, {Data.TexturePageItems.Count} Texture Page Items");
         if (!Data.IsYYC())
         {
-            GenoukaUI_WriteLine($"{Data.Code.Count} Code Entries, {Data.Variables.Count} Variables, {Data.Functions.Count} Functions");
+            GenoukaUI_WriteLine(
+                $"{Data.Code.Count} Code Entries, {Data.Variables.Count} Variables, {Data.Functions.Count} Functions");
             var codeLocalsInfo = Data.CodeLocals is not null ? $"{Data.CodeLocals.Count} Code locals, " : "";
-            GenoukaUI_WriteLine($"{codeLocalsInfo}{Data.Strings.Count} Strings, {Data.EmbeddedTextures.Count} Embedded Textures");
+            GenoukaUI_WriteLine(
+                $"{codeLocalsInfo}{Data.Strings.Count} Strings, {Data.EmbeddedTextures.Count} Embedded Textures");
         }
         else
         {
@@ -524,10 +546,12 @@ public partial class CliMain : IScriptInterface
 
         if (IsInteractive) Pause();
     }
+
     public static string StringWriteln([StringSyntax("CompositeFormat")] string format, params object?[] args)
     {
         return string.Format(format, args) + "\n";
     }
+
     public string GetObjectDetails(object obj, int indentLevel = 0)
     {
         if (obj == null) return "";
@@ -564,8 +588,10 @@ public partial class CliMain : IScriptInterface
                 info += GetObjectDetails(value, indentLevel + 1);
             }
         }
+
         return info;
     }
+
     public string getQuickInfo()
     {
         string info = "";
@@ -579,7 +605,8 @@ public partial class CliMain : IScriptInterface
         info += StringWriteln($"{Data.Sounds.Count} 个声音, {Data.Sprites.Count} 个精灵, {Data.Backgrounds.Count} 个背景");
         info += StringWriteln($"{Data.Paths.Count} 个路径, {Data.Scripts.Count} 个脚本, {Data.Shaders.Count} 个着色器");
         info += StringWriteln($"{Data.Fonts.Count} 个字体, {Data.Timelines.Count} 个时间线, {Data.GameObjects.Count} 个游戏对象");
-        info += StringWriteln($"{Data.Rooms.Count} 个房间, {Data.Extensions.Count} 个扩展, {Data.TexturePageItems.Count} 个纹理页子项");
+        info += StringWriteln(
+            $"{Data.Rooms.Count} 个房间, {Data.Extensions.Count} 个扩展, {Data.TexturePageItems.Count} 个纹理页子项");
         if (!Data.IsYYC())
         {
             info += StringWriteln($"{Data.Code.Count} 个代码项, {Data.Variables.Count} 个变量, {Data.Functions.Count} 个函数");
@@ -670,6 +697,7 @@ public partial class CliMain : IScriptInterface
                 GenoukaUI_WriteLine($"{texture.Name} has no image assigned, skipping");
                 continue;
             }
+
             using FileStream fs = new($"{directory}/{texture.Name.Content}.png", FileMode.Create);
             texture.TextureData.Image.SavePng(fs);
         }
@@ -718,7 +746,8 @@ public partial class CliMain : IScriptInterface
                 {
                     // Split out the actual object name and the collision subtype
                     objectName = nameAfterPrefix[0..collisionSeparatorPos];
-                    ReadOnlySpan<char> collisionSubtype = nameAfterPrefix[(collisionSeparatorPos + collisionSeparator.Length)..];
+                    ReadOnlySpan<char> collisionSubtype =
+                        nameAfterPrefix[(collisionSeparatorPos + collisionSeparator.Length)..];
 
                     if (Data.IsVersionAtLeast(2, 3))
                     {
@@ -743,7 +772,8 @@ public partial class CliMain : IScriptInterface
                     {
                         // Pre-2.3 GMS2 versions use GUIDs... need to resolve it
                         eventSubtype = ReduceCollisionValue(GetCollisionValueFromCodeNameGUID(codeEntry));
-                        ReassignGUIDs(collisionSubtype.ToString(), ReduceCollisionValue(GetCollisionValueFromCodeNameGUID(codeEntry)));
+                        ReassignGUIDs(collisionSubtype.ToString(),
+                            ReduceCollisionValue(GetCollisionValueFromCodeNameGUID(codeEntry)));
                     }
                 }
                 else
@@ -758,14 +788,16 @@ public partial class CliMain : IScriptInterface
                 manualLink = true;
                 if (eventSubtype >= Data.GameObjects.Count)
                 {
-                    if (ScriptQuestion($"Object of ID {eventSubtype} was not found.\nAdd new object? (will be ID {Data.GameObjects.Count})"))
+                    if (ScriptQuestion(
+                            $"Object of ID {eventSubtype} was not found.\nAdd new object? (will be ID {Data.GameObjects.Count})"))
                     {
                         // Create new object at end of game object list
                         eventSubtype = (uint)Data.GameObjects.Count;
                         Data.GameObjects.Add(new()
                         {
                             Name = Data.Strings.MakeString(
-                                SimpleTextInput("Enter object name", $"Enter object name for ID {eventSubtype}", "", false))
+                                SimpleTextInput("Enter object name", $"Enter object name for ID {eventSubtype}", "",
+                                    false))
                         });
                     }
                     else
@@ -859,8 +891,10 @@ public partial class CliMain : IScriptInterface
         ScriptPath = path;
         RunCSharpCode(lines, ScriptPath);
     }
+
     public delegate void DelegateOutput(string line);
-    public bool RunCSharpFilePublic(string path,DelegateOutput callback,Page page)
+
+    public bool RunCSharpFilePublic(string path, DelegateOutput callback, Page page)
     {
         string lines;
         try
@@ -876,11 +910,11 @@ public partial class CliMain : IScriptInterface
 
         lines = $"#line 1 \"{path}\"\n" + lines;
         ScriptPath = path;
-        RunCSharpCodePublic2(callback,page,lines, ScriptPath);
+        RunCSharpCodePublic2(callback, page, lines, ScriptPath);
         return true;
     }
-    
-    public void RunCSharpCodePublic2(DelegateOutput callback,Page page,string code, string scriptFile = null)
+
+    public void RunCSharpCodePublic2(DelegateOutput callback, Page page, string code, string scriptFile = null)
     {
         Genouka_callback = callback;
         this.MAUI_Page = page;
@@ -889,7 +923,9 @@ public partial class CliMain : IScriptInterface
 
         try
         {
-            CSharpScript.EvaluateAsync(code, CliScriptOptions.WithFilePath(scriptFile ?? "").WithFileEncoding(Encoding.UTF8), this, typeof(IScriptInterface)).GetAwaiter().GetResult();
+            CSharpScript
+                .EvaluateAsync(code, CliScriptOptions.WithFilePath(scriptFile ?? "").WithFileEncoding(Encoding.UTF8),
+                    this, typeof(IScriptInterface)).GetAwaiter().GetResult();
             ScriptExecutionSuccess = true;
             ScriptErrorMessage = "";
         }
@@ -926,7 +962,9 @@ public partial class CliMain : IScriptInterface
 
         try
         {
-            CSharpScript.EvaluateAsync(code, CliScriptOptions.WithFilePath(scriptFile ?? "").WithFileEncoding(Encoding.UTF8), this, typeof(IScriptInterface)).GetAwaiter().GetResult();
+            CSharpScript
+                .EvaluateAsync(code, CliScriptOptions.WithFilePath(scriptFile ?? "").WithFileEncoding(Encoding.UTF8),
+                    this, typeof(IScriptInterface)).GetAwaiter().GetResult();
             ScriptExecutionSuccess = true;
             ScriptErrorMessage = "";
         }
@@ -991,7 +1029,8 @@ public partial class CliMain : IScriptInterface
     /// <param name="messageHandler">Handler for messages</param>
     /// <returns></returns>
     /// <exception cref="FileNotFoundException">If the data file cannot be found</exception>
-    private static UndertaleData ReadDataFile(FileInfo datafile, WarningHandlerDelegate warningHandler = null, MessageHandlerDelegate messageHandler = null)
+    private static UndertaleData ReadDataFile(FileInfo datafile, WarningHandlerDelegate warningHandler = null,
+        MessageHandlerDelegate messageHandler = null)
     {
         try
         {
@@ -1032,7 +1071,8 @@ public partial class CliMain : IScriptInterface
     /// </summary>
     /// <param name="warning">The warning to print</param>
     /// <param name="isImportant">Whether the warning is important (may lead to data corruption)</param>
-    private static void WarningHandler(string warning, bool isImportant) => GenoukaUI_WriteLine($"[WARNING]: {warning}");
+    private static void WarningHandler(string warning, bool isImportant) =>
+        GenoukaUI_WriteLine($"[WARNING]: {warning}");
 
     /// <summary>
     /// A simple message handler that prints messages to console.
@@ -1045,7 +1085,8 @@ public partial class CliMain : IScriptInterface
     /// </summary>
     /// <param name="message">Not used.</param>
     private static void DummyHandler(string message)
-    { }
+    {
+    }
 
     //TODO: document these as well
     private void ProgressUpdater()
@@ -1061,7 +1102,7 @@ public partial class CliMain : IScriptInterface
                     return;
 
                 if (prevTime == default)
-                    prevTime = DateTime.UtcNow;                                       //begin measuring
+                    prevTime = DateTime.UtcNow; //begin measuring
                 else if (DateTime.UtcNow.Subtract(prevTime).TotalMilliseconds >= 500) //timeout - 0.5 seconds
                     return;
             }
@@ -1073,16 +1114,18 @@ public partial class CliMain : IScriptInterface
             Thread.Sleep(100); //10 times per second
         }
     }
-    private static void GenoukaUI_WriteLine([StringSyntax("CompositeFormat")] string format, object? arg0=null)
+
+    private static void GenoukaUI_WriteLine([StringSyntax("CompositeFormat")] string format, object? arg0 = null)
     {
         var thing = String.Format(format, arg0);
-        if(Genouka_callback is not null) Genouka_callback(thing+"\n");
+        if (Genouka_callback is not null) Genouka_callback(thing + "\n");
         else Debug.WriteLine(thing);
     }
-    private static void GenoukaUI_Write([StringSyntax("CompositeFormat")] string format, object? arg0=null)
+
+    private static void GenoukaUI_Write([StringSyntax("CompositeFormat")] string format, object? arg0 = null)
     {
         var thing = String.Format(format, arg0);
-        if(Genouka_callback is not null) Genouka_callback(thing);
+        if (Genouka_callback is not null) Genouka_callback(thing);
         else Debug.Write(thing);
     }
 }

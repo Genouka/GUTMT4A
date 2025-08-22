@@ -2,6 +2,7 @@
 using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Ports;
 using System.Linq;
@@ -18,14 +19,14 @@ namespace UndertaleModLib
      * TODO: This is not the cleanest implementation, but I was focusing on clean interface.
      * Could probably use some refactoring or a complete rewrite.
      */
-
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface UndertaleResourceRef : UndertaleObject
     {
         object Resource { get; set; }
         void PostUnserialize(UndertaleReader reader);
         int SerializeById(UndertaleWriter writer);
     }
-
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleResourceById<T, ChunkT> : UndertaleResourceRef, IStaticChildObjectsSize, IDisposable where T : UndertaleResource, new() where ChunkT : UndertaleListChunk<T>
     {
         /// <inheritdoc cref="IStaticChildObjectsSize.ChildObjectsSize" />
@@ -173,6 +174,7 @@ namespace UndertaleModLib
             UnserializeById(reader, reader.ReadInt32());
         }
     }
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
 
     public class UndertaleReader : AdaptiveBinaryReader
     {
@@ -205,7 +207,7 @@ namespace UndertaleModLib
         /// Can also be manually changed.
         /// </summary>
         public string Directory { get; set; } = null;
-
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
         internal readonly record struct BytecodeInformation(uint InstructionCount, UndertaleCode RootEntry);
 
         internal Dictionary<uint, BytecodeInformation> BytecodeAddresses;
@@ -1012,6 +1014,7 @@ namespace UndertaleModLib
             return new WriteLengthOperation(this);
         }
     }
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
 
     public static class UndertaleIO
     {

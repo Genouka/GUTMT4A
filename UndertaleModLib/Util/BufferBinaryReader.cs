@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Buffers.Binary;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 
 namespace UndertaleModLib.Util
 {
     // Initial implementation was based on DogScepter's implementation
-    public class BufferBinaryReader : IBinaryReader
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
+public class BufferBinaryReader : IBinaryReader
     {
         // A faster implementation of "MemoryStream"
         private class ChunkBuffer

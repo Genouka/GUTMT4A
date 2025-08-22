@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using UndertaleModLib.Models;
 using static UndertaleModLib.UndertaleReader;
 
 namespace UndertaleModLib
 {
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public abstract class UndertaleChunk
     {
         public abstract string Name { get; }
@@ -171,22 +173,26 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface IUndertaleSingleChunk
     {
         UndertaleObject GetObject();
     }
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface IUndertaleListChunk
     {
         IList GetList();
         void GenerateIndexDict();
         void ClearIndexDict();
     }
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface IUndertaleSimpleListChunk
     {
         IList GetList();
     }
 
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public abstract class UndertaleSingleChunk<T> : UndertaleChunk, IUndertaleSingleChunk where T : UndertaleObject, new()
     {
         public T Object;
@@ -218,6 +224,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public abstract class UndertaleListChunk<T> : UndertaleChunk, IUndertaleListChunk where T : UndertaleObject, new()
     {
         public UndertalePointerList<T> List = new UndertalePointerList<T>();
@@ -254,6 +261,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public abstract class UndertaleAlignUpdatedListChunk<T> : UndertaleListChunk<T> where T : UndertaleObject, new()
     {
         public bool Align = true;
@@ -355,6 +363,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public abstract class UndertaleSimpleListChunk<T> : UndertaleChunk, IUndertaleSimpleListChunk where T : UndertaleObject, new()
     {
         public UndertaleSimpleList<T> List = new UndertaleSimpleList<T>();
@@ -377,6 +386,7 @@ namespace UndertaleModLib
         public IList GetList() => List;
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public abstract class UndertaleEmptyChunk : UndertaleChunk
     {
         internal override void SerializeChunk(UndertaleWriter writer)
@@ -390,6 +400,7 @@ namespace UndertaleModLib
         internal override uint UnserializeObjectCount(UndertaleReader reader) => 0;
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public abstract class UndertaleUnsupportedChunk : UndertaleChunk
     {
         public byte[] RawData;

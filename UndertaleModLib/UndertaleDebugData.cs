@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using UndertaleModLib.Models;
 using UndertaleModLib.ModelsDebug;
 
 namespace UndertaleModLib
 {
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleDebugData
     {
         public UndertaleDebugFORM FORM;

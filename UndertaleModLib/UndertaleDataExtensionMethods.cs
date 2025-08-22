@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using UndertaleModLib.Models;
 
@@ -8,6 +9,7 @@ namespace UndertaleModLib;
 /// <summary>
 /// Extension methods for <see cref="UndertaleData"/>.
 /// </summary>
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
 public static class UndertaleDataExtensionMethods
 {
     /// <summary>

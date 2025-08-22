@@ -4,10 +4,17 @@
     <TargetFrameworks>netstandard2.1;net8.0</TargetFrameworks>
     <LangVersion>12</LangVersion>
     <Nullable>enable</Nullable>
+
+      <TrimMode>partial</TrimMode>
+      <PublishTrimmed>false</PublishTrimmed>
+<!--      <RunAOTCompilation>false</RunAOTCompilation>-->
+<!--      <TrimmerRemoveSymbols>false</TrimmerRemoveSymbols>-->
+<!--      <DebuggerSupport>true</DebuggerSupport>-->
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <ItemGroup>

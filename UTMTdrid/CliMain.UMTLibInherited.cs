@@ -16,11 +16,11 @@ using UndertaleModLib.Compiler;
 using UndertaleModLib.Decompiler;
 using UndertaleModLib.Models;
 using UndertaleModLib.Scripting;
-
 namespace UTMTdrid;
 
 // Everything that gets inherited (methods, attributes) from IScriptInterface gets put here
 // in order to have the inherited stuff separated from normal stuff.
+
 public partial class CliMain : IScriptInterface
 {
     #region Inherited UMTLib Properties

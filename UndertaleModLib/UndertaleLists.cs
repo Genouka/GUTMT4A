@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -12,6 +13,8 @@ namespace UndertaleModLib
     /// <summary>
     /// Basic observable list type, usable for data models to be presented in graphical interfaces.
     /// </summary>
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
+
     public class UndertaleObservableList<T> : ObservableCollection<T>
     {
         // Reference to the private internal list inside Collection<T>
@@ -67,6 +70,8 @@ namespace UndertaleModLib
     /// <summary>
     /// Simple list object, serialized as a 32-bit count followed immediately by all objects in the list.
     /// </summary>
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
+
     public class UndertaleSimpleList<T> : UndertaleObservableList<T>, UndertaleObject where T : UndertaleObject, new()
     {
         /// <inheritdoc />
@@ -173,6 +178,8 @@ namespace UndertaleModLib
     /// <summary>
     /// Simple list object, specifically for strings, serialized as a count followed immediately by all strings in the list.
     /// </summary>
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
+
     public class UndertaleSimpleListString : UndertaleObservableList<UndertaleString>, UndertaleObject
     {
         /// <inheritdoc />
@@ -232,6 +239,8 @@ namespace UndertaleModLib
     /// <summary>
     /// Simple list object, serialized as a 16-bit count followed immediately by all objects in the list.
     /// </summary>
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
+
     public class UndertaleSimpleListShort<T> : UndertaleObservableList<T>, UndertaleObject where T : UndertaleObject, new()
     {
         private void EnsureShortCount()
@@ -342,6 +351,7 @@ namespace UndertaleModLib
     /// <summary>
     /// List of objects that is preceded by an array of pointers, pointing to each object in order.
     /// </summary>
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertalePointerList<T> : UndertaleObservableList<T>, UndertaleObject where T : UndertaleObject, new()
     {
         /// <inheritdoc />
@@ -606,6 +616,7 @@ namespace UndertaleModLib
     /// <summary>
     /// Shorthand for <see cref="UndertaleSimpleList{T}"/> containing <see cref="UndertaleResourceById{T, ChunkT}"/>.
     /// </summary>
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleSimpleResourcesList<T, ChunkT> : UndertaleSimpleList<UndertaleResourceById<T, ChunkT>> where T : UndertaleResource, new() where ChunkT : UndertaleListChunk<T>
     {
         // TODO: Allow direct access to Resource elements?

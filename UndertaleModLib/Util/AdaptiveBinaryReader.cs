@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace UndertaleModLib.Util
 {
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public interface IBinaryReader : IDisposable
     {
         public abstract Stream Stream { get; set; }
@@ -31,7 +33,8 @@ namespace UndertaleModLib.Util
         public abstract void SkipGMString();
     }
 
-    public class AdaptiveBinaryReader : IBinaryReader
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
+public class AdaptiveBinaryReader : IBinaryReader
     {
         private readonly FileBinaryReader fileBinaryReader;
         private readonly BufferBinaryReader bufferBinaryReader;

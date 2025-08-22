@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -13,6 +14,7 @@ using static UndertaleModLib.Models.UndertaleRoom;
 
 namespace UndertaleModLib
 {
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkFORM : UndertaleChunk
     {
         public override string Name => "FORM";
@@ -203,6 +205,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkGEN8 : UndertaleSingleChunk<UndertaleGeneralInfo>
     {
         public override string Name => "GEN8";
@@ -232,11 +235,13 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkOPTN : UndertaleSingleChunk<UndertaleOptions>
     {
         public override string Name => "OPTN";
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkLANG : UndertaleSingleChunk<UndertaleLanguage>
     {
         public override string Name => "LANG";
@@ -247,6 +252,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkEXTN : UndertaleListChunk<UndertaleExtension>
     {
         public override string Name => "EXTN";
@@ -413,6 +419,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkSOND : UndertaleListChunk<UndertaleSound>
     {
         public override string Name => "SOND";
@@ -488,6 +495,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkAGRP : UndertaleListChunk<UndertaleAudioGroup>
     {
         public override string Name => "AGRP";
@@ -606,6 +614,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkSPRT : UndertaleListChunk<UndertaleSprite>
     {
         public override string Name => "SPRT";
@@ -773,6 +782,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkBGND : UndertaleAlignUpdatedListChunk<UndertaleBackground>
     {
         public override string Name => "BGND";
@@ -790,26 +800,31 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkPATH : UndertaleListChunk<UndertalePath>
     {
         public override string Name => "PATH";
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkSCPT : UndertaleListChunk<UndertaleScript>
     {
         public override string Name => "SCPT";
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkGLOB : UndertaleSimpleListChunk<UndertaleGlobalInit>
     {
         public override string Name => "GLOB";
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkGMEN : UndertaleSimpleListChunk<UndertaleGlobalInit>
     {
         public override string Name => "GMEN";
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkSHDR : UndertaleListChunk<UndertaleShader>
     {
         public override string Name => "SHDR";
@@ -858,6 +873,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkFONT : UndertaleListChunk<UndertaleFont>
     {
         public override string Name => "FONT";
@@ -1189,11 +1205,13 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkTMLN : UndertaleListChunk<UndertaleTimeline>
     {
         public override string Name => "TMLN";
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkOBJT : UndertaleListChunk<UndertaleGameObject>
     {
         public override string Name => "OBJT";
@@ -1265,6 +1283,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkROOM : UndertaleListChunk<UndertaleRoom>
     {
         public override string Name => "ROOM";
@@ -1550,16 +1569,19 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkUILR : UndertaleListChunk<UndertaleUIRootNode>
     {
         public override string Name => "UILR";
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkDAFL : UndertaleEmptyChunk // DataFiles
     {
         public override string Name => "DAFL";
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkTPAG : UndertaleListChunk<UndertaleTexturePageItem>
     {
         public override string Name => "TPAG";
@@ -1604,6 +1626,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkCODE : UndertaleListChunk<UndertaleCode>
     {
         public override string Name => "CODE";
@@ -1656,6 +1679,7 @@ namespace UndertaleModLib
     }
 
     [PropertyChanged.AddINotifyPropertyChangedInterface]
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkVARI : UndertaleChunk
     {
         public override string Name => "VARI";
@@ -1738,6 +1762,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkFUNC : UndertaleChunk
     {
         public override string Name => "FUNC";
@@ -1877,6 +1902,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkSTRG : UndertaleAlignUpdatedListChunk<UndertaleString>
     {
         public override string Name => "STRG";
@@ -1903,6 +1929,7 @@ namespace UndertaleModLib
         // There's no need to check padding in "UnserializeObjectCount()"
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkTXTR : UndertaleListChunk<UndertaleEmbeddedTexture>
     {
         public override string Name => "TXTR";
@@ -2120,6 +2147,7 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkAUDO : UndertaleListChunk<UndertaleEmbeddedAudio>
     {
         public override string Name => "AUDO";
@@ -2148,6 +2176,7 @@ namespace UndertaleModLib
     }
 
     // GMS2 only
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkEMBI : UndertaleSimpleListChunk<UndertaleEmbeddedImage>
     {
         public override string Name => "EMBI";
@@ -2182,6 +2211,7 @@ namespace UndertaleModLib
     }
 
     // GMS2.2.1+ only
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkTGIN : UndertaleListChunk<UndertaleTextureGroupInfo>
     {
         public override string Name => "TGIN";
@@ -2286,6 +2316,7 @@ namespace UndertaleModLib
     }
 
     // GMS2.3+ only
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkACRV : UndertaleListChunk<UndertaleAnimationCurve>
     {
         public override string Name => "ACRV";
@@ -2381,6 +2412,7 @@ namespace UndertaleModLib
     }
 
     // GMS2.3+ only
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkSEQN : UndertaleListChunk<UndertaleSequence>
     {
         public override string Name => "SEQN";
@@ -2442,6 +2474,7 @@ namespace UndertaleModLib
     }
 
     // GMS2.3+ only
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkTAGS : UndertaleSingleChunk<UndertaleTags>
     {
         public override string Name => "TAGS";
@@ -2493,6 +2526,7 @@ namespace UndertaleModLib
     }
 
     // GMS2.3.6+ only
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkFEDS : UndertaleListChunk<UndertaleFilterEffect>
     {
         public override string Name => "FEDS";
@@ -2545,6 +2579,7 @@ namespace UndertaleModLib
     }
 
     // GM2022.8+ only
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkFEAT : UndertaleSingleChunk<UndertaleFeatureFlags>
     {
         public override string Name => "FEAT";
@@ -2588,6 +2623,7 @@ namespace UndertaleModLib
     }
 
     // GM2023.2+ only
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkPSEM : UndertaleListChunk<UndertaleParticleSystemEmitter>
     {
         public override string Name => "PSEM";
@@ -2728,6 +2764,7 @@ namespace UndertaleModLib
             return base.UnserializeObjectCount(reader);
         }
     }
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleChunkPSYS : UndertaleListChunk<UndertaleParticleSystem>
     {
         public override string Name => "PSYS";

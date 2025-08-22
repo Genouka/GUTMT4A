@@ -20,6 +20,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
+        <TrimMode>partial</TrimMode>
+<!--        <PublishTrimmed>false</PublishTrimmed>-->
+<!--        <RunAOTCompilation>false</RunAOTCompilation>-->
+<!--        <TrimmerRemoveSymbols>false</TrimmerRemoveSymbols>-->
+        <DebuggerSupport>true</DebuggerSupport>
+
         <!-- Display name -->
         <ApplicationTitle>QiuUTMT</ApplicationTitle>
 
@@ -48,6 +54,7 @@
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
       <AndroidPackageFormat>apk</AndroidPackageFormat>
       <Optimize>false</Optimize>
+      <DebugSymbols>true</DebugSymbols>
     </PropertyGroup>
 
     <ItemGroup>
@@ -79,7 +86,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UndertaleModLib\UndertaleModLib.csproj" />
+      <Folder Include="UTMT\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\UTMTdrid\UTMTdrid.csproj" />
     </ItemGroup>
 
 </Project>

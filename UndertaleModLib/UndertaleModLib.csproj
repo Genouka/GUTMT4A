@@ -15,6 +15,12 @@
     <!-- Suppress all missing XML comment warnings -->
     <NoWarn>1591</NoWarn>
     <IsPackable>false</IsPackable>
+
+      <TrimMode>partial</TrimMode>
+<!--      <PublishTrimmed>false</PublishTrimmed>-->
+<!--      <RunAOTCompilation>false</RunAOTCompilation>-->
+<!--      <TrimmerRemoveSymbols>false</TrimmerRemoveSymbols>-->
+<!--      <DebuggerSupport>true</DebuggerSupport>-->
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -23,6 +29,8 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+      <PublishTrimmed>false</PublishTrimmed>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Fody" Version="6.9.2">

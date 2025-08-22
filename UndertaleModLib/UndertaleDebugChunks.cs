@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using UndertaleModLib.Models;
 using UndertaleModLib.ModelsDebug;
 
 namespace UndertaleModLib
 {
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleDebugFORM : UndertaleChunk
     {
         public override string Name => "FORM";
@@ -48,26 +50,31 @@ namespace UndertaleModLib
         }
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleDebugChunkSCPT : UndertaleListChunk<UndertaleScriptSource>
     {
         public override string Name => "SCPT";
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleDebugChunkDBGI : UndertaleListChunk<UndertaleDebugInfo>
     {
         public override string Name => "DBGI";
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleDebugChunkINST : UndertaleListChunk<UndertaleInstanceVars>
     {
         public override string Name => "INST";
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleDebugChunkLOCL : UndertaleListChunk<UndertaleCodeLocals>
     {
         public override string Name => "LOCL";
     }
 
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
     public class UndertaleDebugChunkSTRG : UndertaleListChunk<UndertaleString>
     {
         public override string Name => "STRG";

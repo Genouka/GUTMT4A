@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -9,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace UndertaleModLib.Util
 {
-    public class BufferBinaryWriter : IDisposable
+    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
+public class BufferBinaryWriter : IDisposable
     {
         private const int BaseBufferSize = 1024 * 1024 * 32;
 
