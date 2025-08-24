@@ -32,4 +32,5 @@ Licensed under GPL 3.0 or later.
 
 ## 捐赠本项目
 
-<img width="1382" height="1382" alt="mm_reward_qrcode" src="https://github.com/user-attachments/assets/3f4e5514-dc04-4f2a-a806-dd6a32787c72" />
+![mm_reward_qrcode](https://github.com/user-attachments/assets/8f442af8-fba5-41fb-ac19-0977744520a0)
+
