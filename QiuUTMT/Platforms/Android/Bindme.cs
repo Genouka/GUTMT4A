@@ -1,5 +1,6 @@
 ﻿using Com.Kongzue.Dialogx.Dialogs;
 using Com.Kongzue.Dialogx.Interfaces;
+using Java.Lang;
 using MauiBinding.Android.DialogX.Additions;
 using Object = Java.Lang.Object;
 using View = Android.Views.View;
@@ -11,6 +12,7 @@ public class Bindme
     public static async Task<bool> dAskDialog(string title, string message)
     {
         var tcs = new TaskCompletionSource<bool>();
+        System.Threading.Thread.Sleep(3000);
         MainThread.BeginInvokeOnMainThread(async () =>
         {
             var msgbox = MessageDialog.Show(title,message, "是", "否")
@@ -23,12 +25,24 @@ public class Bindme
                 {
                     tcs.SetResult(false);
                 }));
+            new System.Threading.Thread(() =>
+            {
+                while(true){
+                    System.Threading.Thread.Sleep(3000);
+                    if (!msgbox.IsShow&&!tcs.Task.IsCompleted)
+                        MainThread.BeginInvokeOnMainThread(async () => { msgbox.Show(); });
+                    else
+                        break;
+                }
+            }).Start();
+            msgbox.Show();
         });
         return await tcs.Task;
     }
     public static async Task<string> dInputDialog(string title, string message)
     {
         var tcs = new TaskCompletionSource<string>();
+        System.Threading.Thread.Sleep(3000);
         MainThread.BeginInvokeOnMainThread(async () =>
         {
             var msgbox = InputDialog.Show(title, message, "是")
@@ -37,6 +51,16 @@ public class Bindme
                     tcs.SetResult(result);
                 }));
             msgbox.SetCancelable(false);
+            new System.Threading.Thread(() =>
+            {
+                while(true){
+                    System.Threading.Thread.Sleep(3000);
+                    if (!msgbox.IsShow&&!tcs.Task.IsCompleted)
+                        MainThread.BeginInvokeOnMainThread(async () => { msgbox.Show(); });
+                    else
+                        break;
+                }
+            }).Start();
         });
         return await tcs.Task;
     }

@@ -13,6 +13,11 @@
       <Optimize>false</Optimize>
       <DebugSymbols>true</DebugSymbols>
         <TrimMode>partial</TrimMode>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
