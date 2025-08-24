@@ -1,12 +1,12 @@
 # Genouka Undertale Mod Tool for Android (GUTMT4A)
+[下载发行版(Release)](https://github.com/Genouka/GUTMT4A/releases)|[反馈(Feedback)](https://github.com/Genouka/GUTMT4A/issues)|[社区(Community)](https://github.com/Genouka/GUTMT4A/discussions)|[文档(Document)](https://github.com/Genouka/GUTMT4A/wiki)
+* * *
 
 (Both application and document are written in Chinese currently. If you wish to have your language in app or documents,welcome to PR one!)
 
 This is an amazing Undertale Mod Tool GUI for Android.
 
 这是一个专为Android平台设计的Undertale Mod Tool GUI客户端。
-
-[下载发行版(Release)](https://github.com/Genouka/GUTMT4A/releases)|[反馈(Feedback)](https://github.com/Genouka/GUTMT4A/issues)|[社区(Community)](https://github.com/Genouka/GUTMT4A/discussions)|[文档(Document)](https://github.com/Genouka/GUTMT4A/wiki)
 
 ---
 
