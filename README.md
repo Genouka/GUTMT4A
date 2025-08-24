@@ -48,7 +48,7 @@ This is an amazing Undertale Mod Tool GUI for Android (Standalone implement).
   * [x] 运行时目录选择器
   * [x] 运行时文件打开选择器
   * [x] 运行时文件保存选择器
-  * [ ] Maigck.NET 相关功能的支持
+  * [ ] Maigck.NET 相关功能的支持【已经尝试了重新为Android编译相关支持，但是没有成功，现在急需大佬帮忙实现这一块】
 
 ## 许可证/LICENSE
 
