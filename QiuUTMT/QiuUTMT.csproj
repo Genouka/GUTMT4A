@@ -93,7 +93,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UTMTdrid\UTMTdrid.csproj" />
+      <ProjectReference Include="..\QiuLibCore\QiuLibCore.csproj" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">

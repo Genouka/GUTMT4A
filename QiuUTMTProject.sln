@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndertaleModLib", "Undertal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Underanalyzer", "Underanalyzer\Underanalyzer\Underanalyzer.csproj", "{0A78D41D-CBFC-4B2E-A461-266404367737}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UTMTdrid", "UTMTdrid\UTMTdrid.csproj", "{716895C5-8B89-4EE8-9021-8982BC82EFF9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QiuLibCore", "QiuLibCore\QiuLibCore.csproj", "{716895C5-8B89-4EE8-9021-8982BC82EFF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

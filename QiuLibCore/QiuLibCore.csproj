@@ -7,6 +7,7 @@
         
         <TrimMode>partial</TrimMode>
         <DebuggerSupport>true</DebuggerSupport>
+        <RootNamespace>UTMTdrid</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
