@@ -5,7 +5,9 @@
 
 <p>(Both code and document are written in Chinese now.If you wish to have your language,welcome to PR one!)</p>
 
-<p>这是一个新的可跨平台轻松运行的Undertale Mod Tool GUI客户端，尤其为Android端适配。</p>
+<p>This is an amazing Undertale Mod Tool GUI for Android。</p>
+
+<p>这是一个专为Android平台设计的Undertale Mod Tool GUI客户端。</p>
 
 </div>
 
@@ -24,6 +26,10 @@
 
 基于GPL3.0或更新版本进行授权
  
-Prohibit uploading to app stores or platforms such as Google Play, as well as redistributing content after adding advertisements.
+Prohibit uploading to app stores or platforms such as Google Play, as well as redistributing content after adding advertisements or other similiar actions.
 
 Licensed under GPL 3.0 or later.
+
+## 捐赠本项目
+
+<img width="1382" height="1382" alt="mm_reward_qrcode" src="https://github.com/user-attachments/assets/3f4e5514-dc04-4f2a-a806-dd6a32787c72" />
