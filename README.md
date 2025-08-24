@@ -1,8 +1,8 @@
 # Genouka Undertale Mod Tool for Android (GUTMT4A)
 
-(Both application and document are written in Chinese currently.If you wish to have your language,welcome to PR one!)
+(Both application and document are written in Chinese currently. If you wish to have your language in app or documents,welcome to PR one!)
 
-This is an amazing Undertale Mod Tool GUI for Android。
+This is an amazing Undertale Mod Tool GUI for Android.
 
 这是一个专为Android平台设计的Undertale Mod Tool GUI客户端。
 
