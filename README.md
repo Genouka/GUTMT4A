@@ -32,8 +32,8 @@ This is an amazing Undertale Mod Tool GUI for Android (Standalone implement).
   * [x] 基本界面实现
   * [x] 树状导航 
   * [x] 对象数据查看
+  * [ ] 对象数据编辑
   * [ ] 集合数据查看
-  * [ ] 集合数据编辑
   * [ ] 集合数据编辑
   * [ ] 图像可视化编辑
   * [ ] 数据检索
@@ -67,7 +67,8 @@ Without the following projects as a foundation, this project would never have be
 
 [UndertaleModTool](https://github.com/UnderminersTeam/UndertaleModTool/)
 
-## 捐赠本项目
+## 捐赠本项目/Donate
 
+Wechat/微信:
 ![mm_reward_qrcode](https://github.com/user-attachments/assets/8f442af8-fba5-41fb-ac19-0977744520a0)
 
