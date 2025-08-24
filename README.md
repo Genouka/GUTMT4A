@@ -31,6 +31,13 @@ Prohibit uploading to app stores or platforms such as Google Play, as well as re
 
 Licensed under GPL 3.0 or later.
 
+## 鸣谢/Thanks
+如果没有以下项目作为基础，本项目将永远不会诞生！
+
+Without the following projects as a foundation, this project would never have been born!
+
+[UndertaleModTool](https://github.com/UnderminersTeam/UndertaleModTool/)
+
 ## 捐赠本项目
 
 ![mm_reward_qrcode](https://github.com/user-attachments/assets/8f442af8-fba5-41fb-ac19-0977744520a0)
