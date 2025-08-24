@@ -18,7 +18,7 @@ This is an amazing Undertale Mod Tool GUI for Android.
 * [x] 运行C#脚本
 * [x] 导出保存的文件
 
-## 许可证
+## 许可证/LICENSE
 
 禁止上传到谷歌商店等应用商店或平台，以及加入广告等内容后重新分发。
 
