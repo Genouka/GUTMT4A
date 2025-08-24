@@ -58,9 +58,10 @@ This is an amazing Undertale Mod Tool GUI for Android (Standalone implement).
 * https://github.com/Genouka/ImageMagick_Dependencies
 * https://github.com/Genouka/Magick.NET
 
-预编译的包
+预编译的原生库和nuget包
 * https://github.com/Genouka/Magick.Native/actions/runs/17188569725
 * https://github.com/Genouka/ImageMagick_Dependencies/actions/runs/17188156308
+* https://github.com/Genouka/Magick.NET/actions/runs/17189771670
 
 ## 许可证/LICENSE
 
