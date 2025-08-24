@@ -18,13 +18,16 @@ This is an amazing Undertale Mod Tool GUI for Android (Standalone implement).
 ## 支持特性/Features
 
 * 主界面
- * [x] 基本界面实现
- * [x] 关于页面实现
+  * [x] 基本界面实现
+  * [x] 关于页面实现
+
 * 数据文件
   * [x] 打开数据文件
   * [x] 保存数据文件
     * [ ] 导出调试信息
+
 * [x] 查看文件概览
+
 * 数据维护
   * [x] 基本界面实现
   * [x] 树状导航 
@@ -38,6 +41,7 @@ This is an amazing Undertale Mod Tool GUI for Android (Standalone implement).
   * GML代码维护
     * [ ] 代码编辑器
     * [ ] 语法检查和重编译
+
 * 运行C#脚本
   * [x] 基本界面实现
   * [x] 运行时质询界面实现
