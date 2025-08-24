@@ -50,6 +50,18 @@ This is an amazing Undertale Mod Tool GUI for Android (Standalone implement).
   * [x] 运行时文件保存选择器
   * [ ] Maigck.NET 相关功能的支持【已经尝试了重新为Android编译相关支持，但是没有成功，现在急需大佬帮忙实现这一块】
 
+## 关于Magick.NET在linux musl arm64上的支持
+你可能会需要以下包来构建这个程序。
+
+特殊构建的仓库
+* https://github.com/Genouka/ImageMagick
+* https://github.com/Genouka/ImageMagick_Dependencies
+* https://github.com/Genouka/Magick.NET
+
+预编译的包
+* https://github.com/Genouka/Magick.Native/actions/runs/17188569725
+* https://github.com/Genouka/ImageMagick_Dependencies/actions/runs/17188156308
+
 ## 许可证/LICENSE
 
 禁止上传到谷歌商店等应用商店或平台，以及加入广告等内容后重新分发。
