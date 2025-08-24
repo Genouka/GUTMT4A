@@ -1,4 +1,7 @@
 # Genouka Undertale Mod Tool for Android (GUTMT4A)
+![GitHub Release](https://img.shields.io/github/v/release/GenOuka/GUTMT4A) ![GitHub License](https://img.shields.io/github/license/GenOuka/GUTMT4A)
+
+
 [下载发行版(Release)](https://github.com/Genouka/GUTMT4A/releases)|[反馈(Feedback)](https://github.com/Genouka/GUTMT4A/issues)|[社区(Community)](https://github.com/Genouka/GUTMT4A/discussions)|[文档(Document)](https://github.com/Genouka/GUTMT4A/wiki)
 * * *
 
