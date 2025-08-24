@@ -7,19 +7,44 @@
 
 (Both application and document are written in Chinese currently. If you wish to have your language in app or documents,welcome to PR one!)
 
-This is an amazing Undertale Mod Tool GUI for Android.
+This is an amazing Undertale Mod Tool GUI for Android (Standalone implement).
 
-这是一个专为Android平台设计的Undertale Mod Tool GUI客户端。
+这是一个专为Android平台设计的Undertale Mod Tool GUI客户端（独立实现）。
 
 ---
 
 ![GUTMT4A (2)](https://github.com/user-attachments/assets/4ba85607-3027-49c2-a1b5-f963aded16cc)
 
-## 支持特性
+## 支持特性/Features
+
+* 主界面
+ * [x] 基本界面实现
+ * [x] 关于页面实现
+* 数据文件
+  * [x] 打开数据文件
+  * [x] 保存数据文件
+    * [ ] 导出调试信息
 * [x] 查看文件概览
-* [x] 查看数据
-* [x] 运行C#脚本
-* [x] 导出保存的文件
+* 数据维护
+  * [x] 基本界面实现
+  * [x] 树状导航 
+  * [x] 对象数据查看
+  * [ ] 集合数据查看
+  * [ ] 集合数据编辑
+  * [ ] 集合数据编辑
+  * [ ] 图像可视化编辑
+  * [ ] 数据检索
+  * [ ] 数据关联
+  * GML代码维护
+    * [ ] 代码编辑器
+    * [ ] 语法检查和重编译
+* 运行C#脚本
+  * [x] 基本界面实现
+  * [x] 运行时质询界面实现
+  * [x] 运行时目录选择器
+  * [x] 运行时文件打开选择器
+  * [x] 运行时文件保存选择器
+  * [ ] Maigck.NET 相关功能的支持
 
 ## 许可证/LICENSE
 
