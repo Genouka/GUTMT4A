@@ -6,6 +6,10 @@ This is an amazing Undertale Mod Tool GUI for Android。
 
 这是一个专为Android平台设计的Undertale Mod Tool GUI客户端。
 
+[下载发行版](https://github.com/Genouka/GUTMT4A/releases)|[反馈](https://github.com/Genouka/GUTMT4A/issues)|[社区](https://github.com/Genouka/GUTMT4A/discussions)|[文档](https://github.com/Genouka/GUTMT4A/wiki)
+
+---
+
 ![GUTMT4A (2)](https://github.com/user-attachments/assets/4ba85607-3027-49c2-a1b5-f963aded16cc)
 
 ## 支持特性
