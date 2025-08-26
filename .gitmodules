@@ -1,0 +1,3 @@
+[submodule "UndertaleModTool"]
+	path = UndertaleModTool
+	url = git@github.com:UnderminersTeam/UndertaleModTool.git

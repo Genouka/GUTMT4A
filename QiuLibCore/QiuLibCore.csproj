@@ -22,7 +22,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UndertaleModLib\UndertaleModLib.csproj" >
+      <ProjectReference Include="..\UndertaleModTool\UndertaleModLib\UndertaleModLib.csproj">
       </ProjectReference>
     </ItemGroup>
     <ItemGroup>
