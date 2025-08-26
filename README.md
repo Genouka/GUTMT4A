@@ -48,7 +48,7 @@ This is an amazing Undertale Mod Tool GUI for Android (Standalone implement).
   * [x] 运行时目录选择器
   * [x] 运行时文件打开选择器
   * [x] 运行时文件保存选择器
-  * [ ] Maigck.NET 相关功能的支持(详见 #2)
+  * [ ] Maigck.NET 相关功能的支持(详见 https://github.com/Genouka/GUTMT4A/issues/2 )
 
 ## 许可证/LICENSE
 
