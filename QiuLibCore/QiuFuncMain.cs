@@ -99,7 +99,7 @@ public partial class QiuFuncMain : IScriptInterface
     /// <param name="args">Arguments passed on to program.</param>
     /// <returns>Result code of the program.</returns>
     
-    [DynamicDependency("DecompilerSettings", "ToolInfo", "UndertaleModLibQ")]
+    [DynamicDependency("DecompilerSettings", "ToolInfo", "UndertaleModLib")]
     public QiuFuncMain(FileInfo datafile, FileInfo[] scripts, FileInfo output, bool verbose = false,
         bool interactive = false)
     {
@@ -120,10 +120,10 @@ public partial class QiuFuncMain : IScriptInterface
             var cliscript = ScriptOptions.Default;
             cliscript=cliscript.WithAllowUnsafe(true);
             cliscript=cliscript.WithEmitDebugInformation(true);
-            //var t=new UndertaleModLibQ.ToolInfo();
-            cliscript=cliscript.AddImports("UndertaleModLibQ", "UndertaleModLibQ.Models", "UndertaleModLibQ.Decompiler",
-                    "UndertaleModLibQ.Scripting", "UndertaleModLibQ.Compiler",
-                    "UndertaleModLibQ.Util", "System", "System.IO", "System.Collections.Generic",
+            //var t=new UndertaleModLib.ToolInfo();
+            cliscript=cliscript.AddImports("UndertaleModLib", "UndertaleModLib.Models", "UndertaleModLib.Decompiler",
+                    "UndertaleModLib.Scripting", "UndertaleModLib.Compiler",
+                    "UndertaleModLib.Util", "System", "System.IO", "System.Collections.Generic",
                     "System.Text.RegularExpressions");
             cliscript=cliscript.AddReferences(typeof(UndertaleObject).GetTypeInfo().Assembly,
                     GetType().GetTypeInfo().Assembly,
