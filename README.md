@@ -3,6 +3,8 @@
 
 
 [下载发行版(Release)](https://github.com/Genouka/GUTMT4A/releases)|[反馈(Feedback)](https://github.com/Genouka/GUTMT4A/issues)|[社区(Community)](https://github.com/Genouka/GUTMT4A/discussions)|[文档(Document)](https://github.com/Genouka/GUTMT4A/wiki)
+
+[欢迎给我的我的哔哩哔哩给个三连支持！](https://space.bilibili.com/3493116076100126)
 * * *
 
 (Both application and document are written in Chinese currently. If you wish to have your language in app or documents,welcome to PR one!)
