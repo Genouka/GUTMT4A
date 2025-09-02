@@ -7,6 +7,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using UndertaleModLib;
+using UndertaleModLib.Models;
 using UTMTdrid;
 
 namespace QiuUTMT;
@@ -22,12 +24,12 @@ public partial class DetailInfoInternative : ContentPage
         public int IndentLevel { get; set; }
         public bool IsExpanded { get; set; }
     }
+
     public DetailInfoInternative()
     {
         InitializeComponent();
         BindingContext = this;
-        var sampleObject = CreateSampleObject();
-        SetCurrentObject(QiuFuncMainSingle.QiuFuncMain, "GM数据对象");
+        SetCurrentObject(QiuFuncMainSingle.QiuFuncMain.Data, "GM数据对象");
     }
 
     private object currentObject;
@@ -93,32 +95,55 @@ public partial class DetailInfoInternative : ContentPage
         }
 
         // 获取对象属性
-        foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(obj))
+        if (obj is IEnumerable enumerable && obj is not string)
         {
-            try
+            int idx = 0;
+            foreach (var item in enumerable)
             {
-                object value = descriptor.GetValue(obj);
-                string valuePreview = GetValuePreview(value);
-                bool isExpandable = IsExpandable(value);
+                string title = $"[{idx}]";
+                string valuePreview = GetValuePreview(item);
+                bool isExpandable = IsExpandable(item);
 
                 Properties.Add(new PropertyItem
                 {
-                    Name = descriptor.Name,
+                    Name = title,
                     Value = valuePreview,
-                    OriginalValue = value,
+                    OriginalValue = item,
                     IsExpandable = isExpandable,
                     IndentLevel = 0
                 });
+                idx++;
             }
-            catch (Exception ex)
+        }
+        else
+        {
+            foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(obj))
             {
-                Properties.Add(new PropertyItem
+                try
                 {
-                    Name = descriptor.Name,
-                    Value = $"<错误: {ex.Message}>",
-                    IsExpandable = false,
-                    IndentLevel = 0
-                });
+                    object value = descriptor.GetValue(obj);
+                    string valuePreview = GetValuePreview(value);
+                    bool isExpandable = IsExpandable(value);
+
+                    Properties.Add(new PropertyItem
+                    {
+                        Name = descriptor.Name,
+                        Value = valuePreview,
+                        OriginalValue = value,
+                        IsExpandable = isExpandable,
+                        IndentLevel = 0
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Properties.Add(new PropertyItem
+                    {
+                        Name = descriptor.Name,
+                        Value = $"<错误: {ex.Message}>",
+                        IsExpandable = false,
+                        IndentLevel = 0
+                    });
+                }
             }
         }
 
@@ -140,10 +165,24 @@ public partial class DetailInfoInternative : ContentPage
         {
             int count = 0;
             foreach (var item in enumerable) count++;
-            return $"[集合: {count} 项]";
+            return $"集合[{count}]";
+        }
+        
+        //如果不是集合就是对象
+
+        var title=$"对象[{type.Name}]";
+
+        if (value is UndertaleString)
+        {
+            title+=((UndertaleString)value).Content;
         }
 
-        return $"[对象: {type.Name}]";
+        if (value is UndertaleNamedResource)
+        {
+            title += ((UndertaleNamedResource)value).Name.Content;
+        }
+
+        return title;
     }
 
     private bool IsExpandable(object value)
@@ -191,30 +230,87 @@ public partial class DetailInfoInternative : ContentPage
         }
     }
 
-    private object CreateSampleObject()
+    #region ===== 新增：编辑入口 =====
+
+    /// <summary>
+    /// 供 UI 调用的入口。
+    /// 在 XAML 里给显示 Value 的控件加一个 TapGestureRecognizer，
+    /// CommandParameter="{Binding .}"，然后把 Command 指到这里即可。
+    /// </summary>
+    private async Task EditPropertyAsync(PropertyItem item)
     {
-        // 创建示例对象
-        return new
+        if (item == null) return;
+
+        // 基本类型、字符串、DateTime 才允许编辑，可自行扩展
+        var type = item.OriginalValue?.GetType();
+        if (type == null ||
+            (!type.IsPrimitive && type != typeof(string) && type != typeof(DateTime)))
         {
-            Name = "示例对象",
-            Value = 42,
-            Created = DateTime.Now,
-            Nested = new
-            {
-                Title = "嵌套对象",
-                Items = new[] { "项目1", "项目2", "项目3" },
-                Metadata = new
-                {
-                    Author = "管理员",
-                    Version = "1.0"
-                }
-            },
-            Collection = new List<object>
-            {
-                new { Id = 1, Name = "列表项1" },
-                new { Id = 2, Name = "列表项2" },
-                new { Id = 3, Name = "列表项3" }
-            }
-        };
+            await DisplayAlert("提示", "该属性不支持编辑", "OK");
+            return;
+        }
+
+        // 弹窗输入
+        string newText = await DisplayPromptAsync(
+            $"编辑 {item.Name}",
+            "请输入新的值：",
+            initialValue: item.OriginalValue?.ToString() ?? string.Empty,
+            maxLength: 200,
+            keyboard: type == typeof(string) ? Keyboard.Text : Keyboard.Numeric);
+
+        if (newText == null) return; // 用户取消
+
+        // 类型转换
+        object newValue = ConvertStringToTargetType(newText, type);
+
+        try
+        {
+            // 把值写回到原对象
+            WriteValueBackToInstance(currentObject, item.Name, newValue);
+            // 刷新 UI
+            SetCurrentObject(currentObject, CurrentObjectName);
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("错误", $"写入失败：{ex.Message}", "OK");
+        }
     }
+
+    /// <summary>
+    /// 把字符串转换成目标类型
+    /// </summary>
+    private static object ConvertStringToTargetType(string text, Type targetType)
+    {
+        if (targetType == typeof(string)) return text;
+        if (targetType == typeof(DateTime) && DateTime.TryParse(text, out var dt)) return dt;
+        return Convert.ChangeType(text, targetType);
+    }
+
+    /// <summary>
+    /// 把值写回到实例的属性/索引器
+    /// </summary>
+    private static void WriteValueBackToInstance(object instance, string propertyOrIndex, object value)
+    {
+        if (instance is IDictionary dict && propertyOrIndex.StartsWith("["))
+        {
+            // 处理字典 / ExpandoObject 之类
+            var key = propertyOrIndex.Trim('[', ']');
+            dict[key] = value;
+            return;
+        }
+
+        if (instance is IList list && int.TryParse(propertyOrIndex.Trim('[', ']'), out int index))
+        {
+            // 处理 IList
+            list[index] = value;
+            return;
+        }
+
+        // 普通对象属性
+        var pd = TypeDescriptor.GetProperties(instance).Find(propertyOrIndex, false);
+        if (pd == null) throw new InvalidOperationException($"找不到属性：{propertyOrIndex}");
+        pd.SetValue(instance, value);
+    }
+
+    #endregion
 }

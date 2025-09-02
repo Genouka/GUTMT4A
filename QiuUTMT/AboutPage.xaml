@@ -32,6 +32,11 @@
                     HorizontalOptions="Fill" />
                 <Image
                     Source="genouka_mm_reward_qrcode.png"/>
+                <Button
+                    x:Name="CodeEditorPageBtn"
+                    Text="测试: CodeEditorPage" 
+                    Clicked="OnCodeEditorPageBtnClicked"
+                    HorizontalOptions="Fill" />
             </VerticalStackLayout>
         </ScrollView>
     </ContentPage.Content>

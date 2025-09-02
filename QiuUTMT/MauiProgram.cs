@@ -16,7 +16,14 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            });
+            })
+#if ANDROID
+            .ConfigureMauiHandlers(handlers =>
+            {
+                handlers.AddHandler(typeof(SoraEditor), typeof(SoraEditorHandler));
+			})
+#endif
+            ;
 
 #if DEBUG
         builder.Logging.AddDebug();

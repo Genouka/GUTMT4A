@@ -1,0 +1,10 @@
+﻿{
+  "languages": [
+    {
+      "grammar": "textmate/gml/syntaxes/gml.tmLanguage.json",
+      "name": "gml",
+      "scopeName": "source.gml",
+      "languageConfiguration": "textmate/gml/language-configuration.json"
+    }
+  ]
+}

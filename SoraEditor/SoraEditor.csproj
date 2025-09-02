@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net9.0-android</TargetFramework>
+        <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <!--
+          Enable trim analyzers for Android class libraries.
+          To learn more, see: https://learn.microsoft.com/dotnet/core/deploying/trimming/prepare-libraries-for-trimming
+        -->
+        <IsTrimmable>true</IsTrimmable>
+        <!--
+          NOTE: you can simply add .aar or .jar files in this directory to be included in the project.
+          To learn more, see: https://learn.microsoft.com/dotnet/maui/migration/android-binding-projects
+        -->
+    </PropertyGroup>
+    <!-- Include format is {GroupId}:{ArtifactId} -->
+    <ItemGroup>
+        <AndroidMavenLibrary Include="io.github.rosemoe:editor" Version="0.23.7" />
+        <AndroidMavenLibrary Include="io.github.rosemoe:language-textmate" Version="0.23.7" />
+        <AndroidMavenLibrary Include="org.jruby.jcodings:jcodings" Version="1.0.63" />
+        <AndroidMavenLibrary Include="org.jruby.joni:joni" Version="2.2.6" />
+        <AndroidMavenLibrary Include="org.snakeyaml:snakeyaml-engine" Version="2.9" />
+        <AndroidMavenLibrary Include="org.eclipse.jdt:org.eclipse.jdt.annotation" Version="2.3.100" />
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="GoogleGson" Version="2.13.1.1" />
+      <PackageReference Include="Xamarin.AndroidX.Annotation" Version="1.9.1.5" />
+      <PackageReference Include="Xamarin.AndroidX.Collection" Version="1.5.0.3" />
+      <PackageReference Include="Xamarin.Kotlin.StdLib" Version="2.2.10" />
+    </ItemGroup>
+</Project>

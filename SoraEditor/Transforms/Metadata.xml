@@ -1,0 +1,39 @@
+﻿<metadata>
+    <!--
+    This sample removes the class: android.support.v4.content.AsyncTaskLoader.LoadTask:
+    <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='AsyncTaskLoader.LoadTask']" />
+    
+    This sample removes the method: android.support.v4.content.CursorLoader.loadInBackground:
+    <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='CursorLoader']/method[@name='loadInBackground']" />
+    -->
+    <remove-node path="/api/package[@name='io.github.rosemoe.sora.lang.styling']/interface[@name='Span']"/>
+    <remove-node path="/api/package[@name='io.github.rosemoe.sora.lang.util']/class[@name='BaseAnalyzeManager']"/>
+    <remove-node path="/api/package[@name='org.joni.ast']/class[@name='AnchorNode']/method[@name='toString' and count(parameter)=1 and parameter[1][@type='int']]"/>
+    <remove-node path="/api/package[@name='io.github.rosemoe.sora.lang.diagnostic']/class[@name='DiagnosticRegion']"/>
+    <remove-node path="/api/package[@name='org.joni.ast']"/>
+    <remove-node path="/api/package[@name='org.eclipse.tm4e.core.internal.grammar']"/>
+    <remove-node path="/api/package[@name='io.github.rosemoe.sora.widget.component']"/>
+    <remove-node path="/api/package[@name='io.github.rosemoe.sora.text']/class[@name='ContentLine']"/>
+    <remove-node path="/api/package[@name='org.eclipse.tm4e.core.internal.grammar.raw']"/>
+    <remove-node path="/api/package[@name='io.github.rosemoe.sora.widget']/class[@name='CodeEditor']/method[@name='getCursorBlink' and count(parameter)=0]"/>
+    <remove-node path="/api/package[@name='io.github.rosemoe.sora.lang.styling.line']/class[@name='LineBackground']"/>
+    <remove-node path="/api/package[@name='org.joni']/class[@name='MultiRegion']"/>
+    <remove-node path="/api/package[@name='org.joni']/class[@name='MultiRegion']"/>
+    <remove-node path="/api/package[@name='org.snakeyaml.engine.v2.composer']/class[@name='Composer']"/>
+    <remove-node path="/api/package[@name='io.github.rosemoe.sora.lang.completion.snippet']"/>
+    <remove-node path="/api/package[@name='org.joni']/class[@name='Region']/field[@name='historyRoot']"/>
+    <remove-node path="/api/package[@name='org.jcodings.spi']/class[@name='Charsets']/method[@name='charsets' and count(parameter)=0]"/>
+    <remove-node path="/api/package[@name='io.github.rosemoe.sora.lang.styling.line']/class[@name='LineGutterBackground']"/>
+    <remove-node path="/api/package[@name='org.joni']/class[@name='SingleRegion']"/>
+    <remove-node path="/api/package[@name='org.jcodings.spi']/class[@name='Charsets']"/>
+    <remove-node path="/api/package[@name='io.github.rosemoe.sora.lang.styling.line']/class[@name='LineSideIcon']"/>
+    <remove-node path="/api/package[@name='io.github.rosemoe.sora.lang.styling.line']/class[@name='LineStyles']"/>
+    <remove-node path="/api/package[@name='org.jcodings.util']/class[@name='Hash.HashEntryIterator']"/>
+    <remove-node path="/api/package[@name='io.github.rosemoe.sora.lang.styling.span']/class[@name='SpanClickableUrl']"/>
+    <remove-node path="/api/package[@name='org.jcodings.util']/class[@name='Hash.HashIterator']"/>
+    <remove-node path="/api/package[@name='org.snakeyaml.engine.v2.nodes']/class[@name='MappingNode']"/>
+    <remove-node path="/api/package[@name='org.snakeyaml.engine.v2.parser']/interface[@name='Parser']"/>
+    <remove-node path="/api/package[@name='org.snakeyaml.engine.v2.scanner']/interface[@name='Scanner']"/>
+    <remove-node path="/api/package[@name='org.snakeyaml.engine.v2.nodes']/class[@name='SequenceNode']"/>
+    <remove-node path="/api/package[@name='io.github.rosemoe.sora.lang.analysis']/class[@name='SimpleAnalyzeManager']"/>
+</metadata>

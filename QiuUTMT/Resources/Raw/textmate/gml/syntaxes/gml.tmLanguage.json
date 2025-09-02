@@ -1,0 +1,387 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "GameMaker Language",
+  "scopeName": "source.gml",
+  "fileTypes": [
+    "gml"
+  ],
+  "patterns": [
+    {
+      "include": "#jsdoc"
+    },
+    {
+      "include": "#comments"
+    },
+    {
+      "include": "#regions"
+    },
+    {
+      "include": "#keywords"
+    },
+    {
+      "include": "#constants"
+    },
+    {
+      "include": "#operators"
+    },
+    {
+      "include": "#functions"
+    },
+    {
+      "include": "#function_calls"
+    },
+    {
+      "include": "#numbers"
+    },
+    {
+      "include": "#macros"
+    },
+    {
+      "include": "#structs"
+    },
+    {
+      "include": "#variables"
+    },
+    {
+      "include": "#strings"
+    }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.triple-slash.gml",
+          "match": "(///).*$\\n?"
+        },
+        {
+          "name": "comment.line.double-slash.gml",
+          "match": "(//).*$\\n?"
+        },
+        {
+          "name": "comment.block.gml",
+          "begin": "/\\*",
+          "end": "\\*/",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.begin.gml"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.comment.end.gml"
+            }
+          }
+        }
+      ]
+    },
+    "regions": {
+      "patterns": [
+        {
+          "name": "comment.line.region.start.gml",
+          "match": "(#region\\b)(\\s+.*)?$",
+          "captures": {
+            "1": {
+              "name": "keyword.region.begin.gml"
+            },
+            "2": {
+              "name": "comment.line.region.title.gml"
+            }
+          }
+        },
+        {
+          "name": "keyword.region.end.gml",
+          "match": "#endregion\\b"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "storage.type.gml",
+          "match": "\\b(var|globalvar|enum)\\b"
+        },
+        {
+          "name": "storage.modifier.gml",
+          "match": "\\b(static)\\b"
+        },
+        {
+          "name": "storage.type.class",
+          "match": "\\b(constructor)\\b"
+        },
+        {
+          "name": "keyword.operator.new.gml",
+          "match": "\\b(new)\\b"
+        },
+        {
+          "name": "keyword.control.gml",
+          "match": "\\b(begin|end|if|then|else|while|do|for|break|continue|with|until|repeat|exit|return|switch|case|default|global|try|catch|finally|throw|delete)\\b"
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.arithmetic.gml",
+          "match": "([-+*/%]|\\b(mod|div)\\b)"
+        },
+        {
+          "name": "keyword.operator.comparison.gml",
+          "match": "(?:<|>|<=|>=|==|!=)"
+        },
+        {
+          "name": "keyword.operator.logical.gml",
+          "match": "(?:&&|\\|\\||\\^\\^|!|\\b(?:and|or|xor|not)\\b)"
+        },
+        {
+          "name": "keyword.operator.assignment.gml",
+          "match": "(?:\\+=|-=|\\*=|/=|%=|\\|=|&=|\\^=|\\?\\?=|<<=|>>=|>>>=|=)"
+        },
+        {
+          "name": "keyword.operator.bitwise.gml",
+          "match": "(?:&|\\||\\^|<<|>>|>>>|~)"
+        },
+        {
+          "name": "keyword.operator.ternary.gml",
+          "match": "\\?|:"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.gml",
+          "match": "\\b(true|false|pi|NaN|infinity|self|other|noone|all|global|undefined|pointer_invalid|pointer_null)\\b"
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "storage.type.function.gml",
+          "match": "\\b(function)\\b"
+        },
+        {
+          "name": "entity.name.function.gml",
+          "match": "\\bfunction\\s+(\\w+)\\s*\\("
+        }
+      ]
+    },
+    "function_calls": {
+      "patterns": [
+        {
+          "name": "meta.function-call.gml",
+          "match": "\\b(\\w+)\\s*\\(",
+          "captures": {
+            "1": {
+              "name": "support.function.gml"
+            }
+          }
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.gml",
+          "begin": "[@$]?\"",
+          "end": "\"",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.begin.gml"
+            }
+          },
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.definition.string.end.gml"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#escape_sequences"
+            }
+          ]
+        }
+      ]
+    },
+    "numbers": {
+      "patterns": [
+        {
+          "name": "constant.numeric.integer.hexadecimal.gml",
+          "match": "\\b(0x[0-9a-fA-F]+|\\$[0-9a-fA-F]+)\\b"
+        },
+        {
+          "name": "constant.numeric.integer.binary.gml",
+          "match": "\\b0b[01]+\\b"
+        },
+        {
+          "name": "constant.numeric.integer.decimal.gml",
+          "match": "\\b\\d+\\b"
+        }
+      ]
+    },
+    "macros": {
+      "patterns": [
+        {
+          "name": "storage.type.macro.gml",
+          "begin": "(#macro)\\s+(\\w+)\\s*",
+          "end": "(?<!\\\\[ \\t]*)\\n",
+          "beginCaptures": {
+            "1": {
+              "name": "storage.type.gml"
+            },
+            "2": {
+              "name": "variable.other.macro.gml"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#strings"
+            },
+            {
+              "include": "#numbers"
+            },
+            {
+              "include": "#keywords"
+            },
+            {
+              "include": "#constants"
+            },
+            {
+              "include": "#functions"
+            },
+            {
+              "include": "#function_calls"
+            },
+            {
+              "include": "#structs"
+            },
+            {
+              "include": "#variables"
+            }
+          ]
+        }
+      ]
+    },
+    "structs": {
+      "patterns": [
+        {
+          "name": "entity.name.struct.gml",
+          "match": "\\b(struct)\\b"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.other.global.gml",
+          "match": "\\b(global)\\.(\\w+)\\b"
+        },
+        {
+          "name": "variable.other.local.gml",
+          "match": "\\b(\\w+)\\b"
+        },
+        {
+          "name": "variable.other.member.gml",
+          "match": "\\b(self)\\.(\\w+)\\b"
+        },
+        {
+          "name": "variable.other.object.gml",
+          "match": "\\b(other)\\.(\\w+)\\b"
+        }
+      ]
+    },
+    "escape_sequences": {
+      "patterns": [
+        {
+          "name": "constant.character.escape.gml",
+          "match": "\\\\(?:[btnfr\"'\\\\]|[0-7]{1,3}|x[0-9a-fA-F]{2})"
+        }
+      ]
+    },
+    "jsdoc": {
+      "patterns": [
+        {
+          "name": "comment.block.documentation.gml",
+          "match": "(///|\\*)\\s*(@(?:description|desc|deprecated|ignore|pure|mixin))\\b.*$\\n?",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.comment.gml"
+            },
+            "2": {
+              "name": "storage.type.class.gml"
+            }
+          }
+        },
+        {
+          "name": "comment.block.documentation.gml",
+          "begin": "(///|\\*)\\s*(@(?:self|context))\\s+([^\\s]+)",
+          "end": "$",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.comment.gml"
+            },
+            "2": {
+              "name": "storage.type.class.gml"
+            },
+            "3": {
+              "name": "entity.name.type.instance.gml"
+            }
+          }
+        },
+        {
+          "name": "comment.block.documentation.gml",
+          "begin": "(///|\\*)\\s*(@(?:returns?|type))\\b(?:\\s*(?:(\\{)\\s*([^}]+)\\s*(\\})))?",
+          "end": "$",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.comment.gml"
+            },
+            "2": {
+              "name": "storage.type.class.gml"
+            },
+            "3": {
+              "name": "punctuation.definition.bracket.curly.begin.gml"
+            },
+            "4": {
+              "name": "entity.name.type.instance.gml"
+            },
+            "5": {
+              "name": "punctuation.definition.bracket.curly.end.gml"
+            }
+          }
+        },
+        {
+          "name": "comment.block.documentation.gml",
+          "begin": "(///|\\*)\\s*(@(?:param|arg|argument|parameter|localvar|var|globalvar|prop|property|instancevar|template))\\b(?:\\s*(?:(\\{)\\s*([^}]+)\\s*(\\})))?(?:\\s*(?:(\\[)?\\s*([_$[:alpha:]][_$[:alnum:]]*)\\s*(\\])?))?",
+          "end": "$",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.comment.gml"
+            },
+            "2": {
+              "name": "storage.type.class.gml"
+            },
+            "3": {
+              "name": "punctuation.definition.bracket.curly.begin.gml"
+            },
+            "4": {
+              "name": "entity.name.type.instance.gml"
+            },
+            "5": {
+              "name": "punctuation.definition.bracket.curly.end.gml"
+            },
+            "6": {
+              "name": "punctuation.definition.optional-value.begin.bracket.square.gml"
+            },
+            "7": {
+              "name": "variable.other.gml"
+            },
+            "8": {
+              "name": "punctuation.definition.optional-value.end.bracket.square.gml"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

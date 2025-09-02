@@ -33,8 +33,8 @@
         <ApplicationId>com.genouka.qiuutmt</ApplicationId>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>2.0</ApplicationDisplayVersion>
-        <ApplicationVersion>2</ApplicationVersion>
+        <ApplicationDisplayVersion>2.6</ApplicationDisplayVersion>
+        <ApplicationVersion>16</ApplicationVersion>
 
         <!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
         <WindowsPackageType>None</WindowsPackageType>
@@ -94,6 +94,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\QiuLibCore\QiuLibCore.csproj" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">
+        <ProjectReference Include="..\SoraEditor\SoraEditor.csproj" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net9.0-android'">

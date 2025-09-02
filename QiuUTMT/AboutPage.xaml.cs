@@ -45,4 +45,9 @@ public partial class AboutPage : ContentPage
         catch (Exception ex)
         {}
     }
+
+    private async void OnCodeEditorPageBtnClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new CodeEditorPage());
+    }
 }

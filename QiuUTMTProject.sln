@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UndertaleModLib", "Undertal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Underanalyzer", "UndertaleModTool\Underanalyzer\Underanalyzer\Underanalyzer.csproj", "{3950665F-249E-44AA-962C-4D6C3CC4EA31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoraEditor", "SoraEditor\SoraEditor.csproj", "{F278F198-C667-4B2B-9653-C569C0003CB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,5 +34,9 @@ Global
 		{3950665F-249E-44AA-962C-4D6C3CC4EA31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3950665F-249E-44AA-962C-4D6C3CC4EA31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3950665F-249E-44AA-962C-4D6C3CC4EA31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F278F198-C667-4B2B-9653-C569C0003CB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F278F198-C667-4B2B-9653-C569C0003CB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F278F198-C667-4B2B-9653-C569C0003CB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F278F198-C667-4B2B-9653-C569C0003CB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
