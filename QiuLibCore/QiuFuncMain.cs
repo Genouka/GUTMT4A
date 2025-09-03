@@ -918,17 +918,19 @@ public partial class QiuFuncMain : IScriptInterface
         //this.MAUI_Page = page;
         if (Verbose)
             callback($"尝试执行 '{scriptFile ?? "代码段"}'...\n");
-
+        
+        var task=CSharpScript
+            .EvaluateAsync(code, CliScriptOptions.WithFilePath(scriptFile ?? "").WithFileEncoding(Encoding.UTF8),
+                this, typeof(IScriptInterface));
         try
         {
-            CSharpScript
-                .EvaluateAsync(code, CliScriptOptions.WithFilePath(scriptFile ?? "").WithFileEncoding(Encoding.UTF8),
-                    this, typeof(IScriptInterface)).GetAwaiter().GetResult();
+            task.GetAwaiter().GetResult();
             ScriptExecutionSuccess = true;
             ScriptErrorMessage = "";
         }
         catch (Exception exc)
         {
+            if(cTokenSource!=null) cTokenSource.Cancel();
             ScriptExecutionSuccess = false;
             ScriptErrorMessage = exc.ToString();
             ScriptErrorType = "Exception";
