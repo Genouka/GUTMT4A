@@ -13,6 +13,7 @@ public partial class LoadScriptPage : ContentPage
     public LoadScriptPage()
     {
         InitializeComponent();
+        LabelOutput.FontFamily="monospace";
     }
 
     private void SetButtonsEnabled(bool isEnabled)
