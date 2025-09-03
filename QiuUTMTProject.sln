@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Underanalyzer", "UndertaleM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoraEditor", "SoraEditor\SoraEditor.csproj", "{F278F198-C667-4B2B-9653-C569C0003CB9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QiuSkiaBridge", "QiuSkiaBridge\QiuSkiaBridge.csproj", "{47ED0486-A42B-4369-B716-DAB48A1B2145}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,5 +40,9 @@ Global
 		{F278F198-C667-4B2B-9653-C569C0003CB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F278F198-C667-4B2B-9653-C569C0003CB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F278F198-C667-4B2B-9653-C569C0003CB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47ED0486-A42B-4369-B716-DAB48A1B2145}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47ED0486-A42B-4369-B716-DAB48A1B2145}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47ED0486-A42B-4369-B716-DAB48A1B2145}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47ED0486-A42B-4369-B716-DAB48A1B2145}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
