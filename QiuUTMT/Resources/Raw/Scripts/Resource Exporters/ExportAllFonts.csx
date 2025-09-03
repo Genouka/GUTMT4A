@@ -17,7 +17,7 @@ if (fntFolder is null)
 SetProgressBar(null, "Fonts", 0, Data.Fonts.Count);
 StartProgressBarUpdater();
 
-TextureWorker worker = null;
+TextureWorkerSkia worker = null;
 using (worker = new())
 {
     await DumpFonts();

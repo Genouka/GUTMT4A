@@ -92,7 +92,7 @@ await Task.Run(() =>
 
         try
         {
-            using MagickImage image = TextureWorker.ReadBGRAImageFromFile(filename);
+            using MagickImage image = TextureWorkerSkia.ReadBGRAImageFromFile(filename);
             UndertaleTexturePageItem item = sprite.Textures[frame].Texture;
             if ((int)image.Width != item.TargetWidth || (int)image.Height != item.TargetHeight)
             {

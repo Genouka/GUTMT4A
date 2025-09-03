@@ -20,7 +20,7 @@ bool useSubDirectories = ScriptQuestion("Export sprites into subdirectories?");
 SetProgressBar(null, "Sprites", 0, Data.Sprites.Count);
 StartProgressBarUpdater();
 
-TextureWorker worker = null;
+TextureWorkerSkia worker = null;
 using (worker = new())
 {
     await DumpSprites();

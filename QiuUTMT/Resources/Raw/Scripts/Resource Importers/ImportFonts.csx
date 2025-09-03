@@ -302,7 +302,7 @@ public class Packer
         FileInfo[] files = di.GetFiles(_Wildcard, SearchOption.AllDirectories);
         foreach (FileInfo fi in files)
         {
-            (int imgWidth, int imgHeight) = TextureWorker.GetImageSizeFromFile(fi.FullName);
+            (int imgWidth, int imgHeight) = TextureWorkerSkia.GetImageSizeFromFile(fi.FullName);
             if (imgWidth <= AtlasSize && imgHeight <= AtlasSize)
             {
                 TextureInfo ti = new TextureInfo();

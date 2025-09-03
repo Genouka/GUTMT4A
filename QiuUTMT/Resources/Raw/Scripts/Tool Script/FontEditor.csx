@@ -17,7 +17,7 @@ if (font is null)
 {
     return; // the 'Cancel' or 'X' button is hit
 }
-using (TextureWorker textureWorker = new())
+using (TextureWorkerSkia textureWorker = new())
 {
     _ = new FontEditorGUI(font, textureWorker).ShowDialog(); // Font editor GUI
 }
@@ -27,11 +27,11 @@ class FontEditorGUI : Form
     UndertaleFont font;
     
     List<Letter> letterData = new List<Letter>();
-    TextureWorker textureWorker = null;
+    TextureWorkerSkia textureWorker = null;
     
     ListView listView;
     bool savePrompt = false;
-    public FontEditorGUI(UndertaleFont font, TextureWorker textureWorker)
+    public FontEditorGUI(UndertaleFont font, TextureWorkerSkia textureWorker)
     {
         this.font = font;
         this.textureWorker = textureWorker;

@@ -1,2 +1,6 @@
 为什么不用中文路径？
 因为会产生Error APT2098 : failed to open file.错误
+
+和原版UTMT的脚本有什么区别？
+在Magick.NET对Android提供支持前，需要将TextureWorker替换成TextureWorkerSkia。
+TextureWorkerSkia是基于SkiaSharp重写的图像处理工具类，可以无缝替换TextureWorker使用。

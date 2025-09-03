@@ -43,7 +43,7 @@ foreach (string file in dirFiles)
     {
         throw new ScriptException($"{fileNameWithExtension} could not be imported as the sprite {spriteName} does not exist.");
     }
-    (int imgWidth, int imgHeight) = TextureWorker.GetImageSizeFromFile(file);
+    (int imgWidth, int imgHeight) = TextureWorkerSkia.GetImageSizeFromFile(file);
     (int expectedMaskWidth, int expectedMaskHeight) = foundSprite.CalculateMaskDimensions(Data);
     if (expectedMaskWidth != imgWidth || expectedMaskHeight != imgHeight)
     {
@@ -112,7 +112,7 @@ await Task.Run(() =>
 
         // Import the mask.
         (int maskWidth, int maskHeight) = sprite.CalculateMaskDimensions(Data);
-        sprite.CollisionMasks[frame].Data = TextureWorker.ReadMaskData(file, maskWidth, maskHeight);
+        sprite.CollisionMasks[frame].Data = TextureWorkerSkia.ReadMaskData(file, maskWidth, maskHeight);
     }
 });
 

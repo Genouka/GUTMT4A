@@ -83,7 +83,7 @@ try
     foreach (Atlas atlas in packer.Atlasses)
     {
         string atlasName = Path.Combine(packDir, $"{prefix}{atlasCount:000}.png");
-        using MagickImage atlasImage = TextureWorker.ReadBGRAImageFromFile(atlasName);
+        using MagickImage atlasImage = TextureWorkerSkia.ReadBGRAImageFromFile(atlasName);
         IPixelCollection<byte> atlasPixels = atlasImage.GetPixels();
 
         UndertaleEmbeddedTexture texture = new();
@@ -555,7 +555,7 @@ public class Packer
 
             // 1: Save images
             using (MagickImage img = CreateAtlasImage(atlas))
-                TextureWorker.SaveImageToFile(img, atlasName);
+                TextureWorkerSkia.SaveImageToFile(img, atlasName);
 
             // 2: save description in file
             foreach (Node n in atlas.Nodes)
@@ -877,7 +877,7 @@ public class Packer
         {
             if (n.Texture is not null)
             {
-                using IMagickImage<byte> resizedSourceImg = TextureWorker.ResizeImage(n.Texture.Image, n.Bounds.Width, n.Bounds.Height);
+                using IMagickImage<byte> resizedSourceImg = TextureWorkerSkia.ResizeImage(n.Texture.Image, n.Bounds.Width, n.Bounds.Height);
                 img.Composite(resizedSourceImg, n.Bounds.X, n.Bounds.Y, CompositeOperator.Copy);
             }
         }

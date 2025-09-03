@@ -27,7 +27,7 @@ foreach (DirectoryInfo di in dir.GetDirectories())
 // Start export of all existing textures
 
 string exportedTexturesFolder = Path.Combine(dir.FullName, "Textures");
-TextureWorker worker = null;
+TextureWorkerSkia worker = null;
 Dictionary<string, int[]> assetCoordinateDict = new();
 Dictionary<string, string> assetTypeDict = new();
 using (worker = new())
@@ -368,7 +368,7 @@ public class Packer
             string atlasName = $"{prefix}{atlasCount:000}.png";
             //1: Save images
             using MagickImage img = CreateAtlasImage(atlas);
-            TextureWorker.SaveImageToFile(img, atlasName);
+            TextureWorkerSkia.SaveImageToFile(img, atlasName);
             //2: save description in file
             foreach (Node n in atlas.Nodes)
             {
@@ -399,7 +399,7 @@ public class Packer
         FileInfo[] files = di.GetFiles(_Wildcard, SearchOption.AllDirectories);
         foreach (FileInfo fi in files)
         {
-            (int width, int height) = TextureWorker.GetImageSizeFromFile(fi.FullName);
+            (int width, int height) = TextureWorkerSkia.GetImageSizeFromFile(fi.FullName);
             if (width == -1 || height == -1)
                 continue;
 
@@ -547,8 +547,8 @@ public class Packer
         {
             if (n.Texture is not null)
             {
-                using MagickImage sourceImg = TextureWorker.ReadBGRAImageFromFile(n.Texture.Source);
-                using IMagickImage<byte> resizedSourceImg = TextureWorker.ResizeImage(sourceImg, n.Bounds.Width, n.Bounds.Height);
+                using MagickImage sourceImg = TextureWorkerSkia.ReadBGRAImageFromFile(n.Texture.Source);
+                using IMagickImage<byte> resizedSourceImg = TextureWorkerSkia.ResizeImage(sourceImg, n.Bounds.Width, n.Bounds.Height);
                 img.Composite(resizedSourceImg, n.Bounds.X, n.Bounds.Y, CompositeOperator.Copy);
             }
         }

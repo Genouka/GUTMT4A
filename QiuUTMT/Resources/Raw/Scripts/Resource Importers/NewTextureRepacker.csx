@@ -213,7 +213,7 @@ void ResetProgress(string text)
     UpdateProgress(0);
 }
 
-TPageItem dumpTexturePageItem(UndertaleTexturePageItem pageItem, TextureWorker worker, string pageItemFile, bool reuse)
+TPageItem dumpTexturePageItem(UndertaleTexturePageItem pageItem, TextureWorkerSkia worker, string pageItemFile, bool reuse)
 {
     TPageItem page = new TPageItem();
     page.Filename = pageItemFile;
@@ -237,7 +237,7 @@ TPageItem dumpTexturePageItem(UndertaleTexturePageItem pageItem, TextureWorker w
 
 async Task<List<TPageItem>> dumpTexturePageItems(string dir, bool reuse)
 {
-    using var worker = new TextureWorker();
+    using var worker = new TextureWorkerSkia();
 
     var tpageitems = await Task.Run(() => Data.TexturePageItems
         .AsParallel()
@@ -451,7 +451,7 @@ await Task.Run(() =>
             {
                 f.WriteLine($"tex: {texPageItems.IndexOf(item)}: {item.NewRect.X}, {item.NewRect.Y}, {item.NewRect.Width}, {item.NewRect.Height}");
 
-                using (MagickImage source = TextureWorker.ReadBGRAImageFromFile(item.Filename))
+                using (MagickImage source = TextureWorkerSkia.ReadBGRAImageFromFile(item.Filename))
                 {
                     newAtlasImage.Composite(source, item.NewRect.X, item.NewRect.Y, CompositeOperator.Copy);
                 }
@@ -466,7 +466,7 @@ await Task.Run(() =>
 
             // Save atlas into a file
             string atlasFile = Path.Combine(packagerDirectory, $"atlas_{atlasName}.png");
-            TextureWorker.SaveImageToFile(newAtlasImage, atlasFile);
+            TextureWorkerSkia.SaveImageToFile(newAtlasImage, atlasFile);
 
             // Assign new texture image
             tex.TextureData.Image = GMImage.FromMagickImage(newAtlasImage).ConvertToPng(); // TODO: generate other formats
@@ -492,13 +492,13 @@ await Task.Run(() =>
                     using MagickImage newAtlasImage = new(MagickColors.Transparent, (uint)potw, (uint)poth);
 
                     // Load texture, composite onto top left of new atlas
-                    using (MagickImage source = TextureWorker.ReadBGRAImageFromFile(item.Filename))
+                    using (MagickImage source = TextureWorkerSkia.ReadBGRAImageFromFile(item.Filename))
                     {
                         newAtlasImage.Composite(source, 0, 0, CompositeOperator.Copy);
                     }
 
                     itemFile = Path.Combine(packagerDirectory, $"pot_{texPageItems.IndexOf(item)}.png");
-                    TextureWorker.SaveImageToFile(newAtlasImage, itemFile);
+                    TextureWorkerSkia.SaveImageToFile(newAtlasImage, itemFile);
 
                     // Assign new texture image
                     tex.TextureData.Image = GMImage.FromMagickImage(newAtlasImage).ConvertToPng(); // TODO: generate other formats

@@ -29,8 +29,8 @@ foreach (FileInfo fileA in filesA)
         continue;
     
     // Load both images, and calculate dimensions of resulting image
-    using MagickImage imageA = TextureWorker.ReadBGRAImageFromFile(Path.Combine(importFolderA, fileA.Name));
-    using MagickImage imageB = TextureWorker.ReadBGRAImageFromFile(Path.Combine(importFolderB, fileA.Name));
+    using MagickImage imageA = TextureWorkerSkia.ReadBGRAImageFromFile(Path.Combine(importFolderA, fileA.Name));
+    using MagickImage imageB = TextureWorkerSkia.ReadBGRAImageFromFile(Path.Combine(importFolderB, fileA.Name));
     uint width = imageA.Width + imageB.Width;
     uint height = Math.Max(imageA.Height, imageB.Height);
 
@@ -40,5 +40,5 @@ foreach (FileInfo fileA in filesA)
     outputImage.Composite(imageB, (int)imageA.Width, 0, CompositeOperator.Copy);
 
     // Save image to output folder
-    TextureWorker.SaveImageToFile(outputImage, Path.Combine(exportFolder, fileA.Name));
+    TextureWorkerSkia.SaveImageToFile(outputImage, Path.Combine(exportFolder, fileA.Name));
 }

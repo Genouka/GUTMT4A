@@ -31,7 +31,7 @@ await ExtractSprites(folder, filter);
 
 async Task ExtractSprites(string folder, string prefix)
 {
-    using TextureWorker worker = new TextureWorker();
+    using TextureWorkerSkia worker = new TextureWorkerSkia();
     IList<UndertaleSprite> sprites = Data.Sprites;
     if (prefix != "")
     {

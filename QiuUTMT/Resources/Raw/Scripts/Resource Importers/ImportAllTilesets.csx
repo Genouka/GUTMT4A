@@ -41,7 +41,7 @@ void ImportTileset(UndertaleBackground tileset)
             string path = Path.Combine(subPath, filename);
             if (File.Exists(path))
             {
-                using MagickImage img = TextureWorker.ReadBGRAImageFromFile(path);
+                using MagickImage img = TextureWorkerSkia.ReadBGRAImageFromFile(path);
                 tileset.Texture.ReplaceTexture(img);
             }
         }
