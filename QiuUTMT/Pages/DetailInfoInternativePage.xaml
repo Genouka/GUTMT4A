@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="GUTMT - 数据窗格"
-             x:Class="QiuUTMT.DetailInfoInternative">
+             x:Class="QiuUTMT.DetailInfoInternativePage">
     <Grid RowDefinitions="Auto, *, Auto"
           >
         <!-- 标题和导航按钮 -->

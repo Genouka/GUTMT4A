@@ -45,7 +45,7 @@ public partial class SoraEditorHandler : ViewHandler<ISoraEditor,CodeEditor>
             themeModel.Dark=true;
             themeRegistry.LoadTheme(themeModel);
             themeRegistry.SetTheme(themeName);
-            GrammarRegistry.Instance.LoadGrammars("textmate/languages.json");
+            GrammarRegistry.Instance.LoadGrammars("textmate/language.json");
         }
     }
 

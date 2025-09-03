@@ -13,7 +13,7 @@ using UTMTdrid;
 
 namespace QiuUTMT;
 
-public partial class DetailInfoInternative : ContentPage
+public partial class DetailInfoInternativePage : ContentPage
 {
     public class PropertyItem
     {
@@ -25,7 +25,7 @@ public partial class DetailInfoInternative : ContentPage
         public bool IsExpanded { get; set; }
     }
 
-    public DetailInfoInternative()
+    public DetailInfoInternativePage()
     {
         InitializeComponent();
         BindingContext = this;
