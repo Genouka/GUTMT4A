@@ -94,7 +94,8 @@ public partial class DataTreePage : ContentPage
             });
             return;
         }
-        List<PropertyItem> propertiesList=new();
+
+        List<PropertyItem> propertiesList = new();
         // 获取对象属性
         if (obj is IEnumerable enumerable && obj is not string)
         {
@@ -115,6 +116,7 @@ public partial class DataTreePage : ContentPage
                 });
                 idx++;
             }
+
             Properties.AddRange(propertiesList);
         }
         else
@@ -147,6 +149,7 @@ public partial class DataTreePage : ContentPage
                     });
                 }
             }
+
             Properties.AddRange(propertiesList);
         }
 
@@ -175,6 +178,7 @@ public partial class DataTreePage : ContentPage
             {
                 foreach (var item in enumerable) count++;
             }
+
             return $"集合[{count}]";
         }
 
@@ -210,10 +214,17 @@ public partial class DataTreePage : ContentPage
 
     private async void OnPropertySelected(object sender, SelectedItemChangedEventArgs e)
     {
-        if (e.SelectedItem is PropertyItem property && property.IsExpandable)
+        if (e.SelectedItem is PropertyItem property)
         {
-            // 导航到选中的属性对象
-            SetCurrentObject(property.OriginalValue, property.Name);
+            if (property.IsExpandable)
+            {
+                // 导航到选中的属性对象
+                SetCurrentObject(property.OriginalValue, property.Name);
+            }
+            else
+            {
+                EditPropertyAsync(property);
+            }
         }
 
         // 清除选择
