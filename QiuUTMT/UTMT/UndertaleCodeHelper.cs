@@ -7,7 +7,7 @@ namespace QiuUTMT.UTMT;
 
 public class UndertaleCodeHelper
 {
-    private UndertaleData getData()
+    private UndertaleData GetData()
     {
         if (QiuFuncMainSingle.QiuFuncMain == null)
         {
@@ -25,21 +25,21 @@ public class UndertaleCodeHelper
     public string GetDecompiledText(string codeName, GlobalDecompileContext context = null,
         IDecompileSettings settings = null)
     {
-        return GetDecompiledText(getData().Code.ByName(codeName), context, settings);
+        return GetDecompiledText(GetData().Code.ByName(codeName), context, settings);
     }
 
-    public string GetDecompiledText(UndertaleCode code, GlobalDecompileContext context = null,
-        IDecompileSettings settings = null)
+    public string GetDecompiledText(UndertaleCode code, GlobalDecompileContext? context = null,
+        IDecompileSettings? settings = null)
     {
         if (code.ParentEntry is not null)
             return $"// 本代码项是 \"{code.ParentEntry.Name.Content}\" 中的匿名函数, 请反编译它.";
 
-        GlobalDecompileContext globalDecompileContext = context is null ? new(getData()) : context;
+        GlobalDecompileContext globalDecompileContext = context is null ? new(GetData()) : context;
         try
         {
             return code != null
                 ? new Underanalyzer.Decompiler.DecompileContext(globalDecompileContext, code,
-                    settings ?? getData().ToolInfo.DecompilerSettings).DecompileToString()
+                    settings ?? GetData().ToolInfo.DecompilerSettings).DecompileToString()
                 : "";
         }
         catch (Exception e)
@@ -56,7 +56,7 @@ public class UndertaleCodeHelper
         try
         {
             return code != null
-                ? code.Disassemble(getData().Variables, getData().CodeLocals?.For(code), getData().CodeLocals is null)
+                ? code.Disassemble(GetData().Variables, GetData().CodeLocals?.For(code), GetData().CodeLocals is null)
                 : "";
         }
         catch (Exception e)
@@ -67,6 +67,6 @@ public class UndertaleCodeHelper
 
     public string GetDisassemblyText(string codeName)
     {
-        return GetDisassemblyText(getData().Code.ByName(codeName));
+        return GetDisassemblyText(GetData().Code.ByName(codeName));
     }
 }
