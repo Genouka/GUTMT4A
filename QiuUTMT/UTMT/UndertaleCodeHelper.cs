@@ -16,7 +16,7 @@ public class UndertaleCodeHelper
 
         if (QiuFuncMainSingle.QiuFuncMain == null)
         {
-            throw new Exception("QiuFuncMainSingle.QiuFuncMain.Data == null尚未初始化，请加载正确的数据文件");
+            throw new Exception("QiuFuncMainSingle.QiuFuncMain.Data尚未初始化，请加载正确的数据文件");
         }
 
         return QiuFuncMainSingle.QiuFuncMain.Data;
