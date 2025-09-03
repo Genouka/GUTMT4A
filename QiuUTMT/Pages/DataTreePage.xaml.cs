@@ -39,7 +39,7 @@ public partial class DataTreePage : ContentPage
     private string _statusMessage = "就绪";
     private bool _canGoBack = false;
 
-    public ObservableCollection<PropertyItem> Properties { get; } = new ObservableCollection<PropertyItem>();
+    public RangeObservableCollection<PropertyItem> Properties { get; } = new();
 
     public string CurrentObjectName
     {
@@ -94,7 +94,7 @@ public partial class DataTreePage : ContentPage
             });
             return;
         }
-
+        List<PropertyItem> propertiesList=new();
         // 获取对象属性
         if (obj is IEnumerable enumerable && obj is not string)
         {
@@ -105,7 +105,7 @@ public partial class DataTreePage : ContentPage
                 string valuePreview = GetValuePreview(item);
                 bool isExpandable = IsExpandable(item);
 
-                Properties.Add(new PropertyItem
+                propertiesList.Add(new PropertyItem
                 {
                     Name = title,
                     Value = valuePreview,
@@ -115,6 +115,7 @@ public partial class DataTreePage : ContentPage
                 });
                 idx++;
             }
+            Properties.AddRange(propertiesList);
         }
         else
         {
@@ -126,7 +127,7 @@ public partial class DataTreePage : ContentPage
                     string valuePreview = GetValuePreview(value);
                     bool isExpandable = IsExpandable(value);
 
-                    Properties.Add(new PropertyItem
+                    propertiesList.Add(new PropertyItem
                     {
                         Name = descriptor.Name,
                         Value = valuePreview,
@@ -137,7 +138,7 @@ public partial class DataTreePage : ContentPage
                 }
                 catch (Exception ex)
                 {
-                    Properties.Add(new PropertyItem
+                    propertiesList.Add(new PropertyItem
                     {
                         Name = descriptor.Name,
                         Value = $"<错误: {ex.Message}>",
@@ -146,6 +147,7 @@ public partial class DataTreePage : ContentPage
                     });
                 }
             }
+            Properties.AddRange(propertiesList);
         }
 
         StatusMessage = $"已加载 {Properties.Count} 个属性";
@@ -165,7 +167,14 @@ public partial class DataTreePage : ContentPage
         if (value is IEnumerable enumerable && !(value is string))
         {
             int count = 0;
-            foreach (var item in enumerable) count++;
+            if (value is ICollection list)
+            {
+                count = list.Count;
+            }
+            else
+            {
+                foreach (var item in enumerable) count++;
+            }
             return $"集合[{count}]";
         }
 
@@ -173,14 +182,14 @@ public partial class DataTreePage : ContentPage
 
         var title = $"对象[{type.Name}]";
 
-        if (value is UndertaleString)
+        if (value is UndertaleString undertaleString)
         {
-            title += ((UndertaleString)value).Content;
+            title += undertaleString.Content;
         }
 
-        if (value is UndertaleNamedResource)
+        if (value is UndertaleNamedResource undertaleNamedResource)
         {
-            title += ((UndertaleNamedResource)value).Name.Content;
+            title += undertaleNamedResource.Name.Content;
         }
 
         return title;
