@@ -113,7 +113,7 @@
       <MauiXaml Update="Pages\LoadScriptPage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
-      <MauiXaml Update="Pages\DetailInfoInternativePage.xaml">
+      <MauiXaml Update="Pages\DataTreePage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
     </ItemGroup>
@@ -135,7 +135,7 @@
         <DependentUpon>LoadScriptPage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
-      <Compile Update="Pages\DetailInfoInternativePage.xaml.cs">
+      <Compile Update="Pages\DataTreePage.xaml.cs">
         <DependentUpon>DetailInfoInternativePage.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>

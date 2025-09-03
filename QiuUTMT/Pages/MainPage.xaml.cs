@@ -80,7 +80,7 @@ public partial class MainPage : ContentPage
     {
         if (QiuFuncMainSingle.QiuFuncMain != null)
         {
-            await Navigation.PushAsync(new DetailInfoInternativePage());
+            await Navigation.PushAsync(new DataTreePage());
         }
     }
 
