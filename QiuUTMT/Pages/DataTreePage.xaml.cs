@@ -289,12 +289,24 @@ public partial class DataTreePage : ContentPage
             // 把值写回到原对象
             WriteValueBackToInstance(currentObject, item.Name, newValue);
             // 刷新 UI
-            SetCurrentObject(currentObject, CurrentObjectName);
+            RefreshListUI();
         }
         catch (Exception ex)
         {
             await DisplayAlert("错误", $"写入失败：{ex.Message}", "OK");
         }
+    }
+
+    private void RefreshListUI()
+    {
+        // 获取当前对象
+        var previousObject = _objectStack.Peek();
+        var previousName = _nameStack.Peek();
+        // 弹出当前对象
+        _objectStack.Pop();
+        _nameStack.Pop();
+        // 更新UI
+        SetCurrentObject(previousObject, previousName);
     }
 
     /// <summary>
