@@ -1,4 +1,5 @@
-﻿using UTMTdrid;
+﻿using System.Reflection;
+using UTMTdrid;
 
 namespace QiuUTMT;
 
@@ -37,42 +38,63 @@ public partial class MainPage : ContentPage
     public MainPage()
     {
         InitializeComponent();
-        LabelProjectName.Text = "按[打开]按钮选择你心仪的GM数据文件吧~\n当前应用版本:"+AppInfo.Current.VersionString+"\n爱来自Bilibili:@秋冥散雨_GenOuka，要不要考虑打赏一下？\n免责声明：您保证您拥有对您打开数据文件的知识产权，我们坚决禁止侵权行为，如有任何由于此工具引起的纠纷，责任均由您承担，开发者免除所有责任。\n本程序可能存在缺陷，不具有质量保证，由于本程序导致的任何损失，开发者不负任何责任。";
+        LabelProjectName.Text = "按[打开]按钮选择Gamemaker数据文件吧！\n"+
+                                "常见文件格式:(*.win,*.unx,*.droid,*.ios,audiogroup*.dat)\n" +
+                                "当前应用版本:" + AppInfo.Current.VersionString + "\n" +
+                                "爱来自Bilibili:@秋冥散雨_GenOuka，要不要考虑打赏一下？\n" +
+                                "免责声明：您应当确保您拥有对您打开数据文件的知识产权，我们坚决禁止侵权行为，如有任何由于此工具引起的纠纷，责任均由您承担，开发者免除所有责任。\n" +
+                                "本程序可能存在缺陷，不具有质量保证，由于本程序导致的任何损失由您承担，开发者不负任何责任。";
     }
 
     private async void OnOpenClicked(object? sender, EventArgs e)
     {
-        var status =await Permissions.CheckStatusAsync<Permissions.StorageRead>();
+        var status = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
         if (status != PermissionStatus.Granted)
-        {
-            status=await Permissions.RequestAsync<Permissions.StorageRead>();
-            //判断是否获取到权限
-        }
-#if ANDROID
-        if (!CheckPermission.CheckExternalStoragePermission())
-        {
+            status = await Permissions.RequestAsync<Permissions.StorageRead>();
+        if (status != PermissionStatus.Granted)
             return;
-        }
+
+#if ANDROID
+    if (!CheckPermission.CheckExternalStoragePermission())
+        return;
 #endif
-        DataEditBtn.IsEnabled = false;
-        RunScriptBtn.IsEnabled = false;
-        SaveBtn.IsEnabled = false;
-        var result = await OpenfileUtils.PickAndShow(PickOptions.Default);
-        if(result != null)
+
+        LabelInfo.Text = "";
+
+        OpenBtn.IsEnabled = DataEditBtn.IsEnabled = RunScriptBtn.IsEnabled = SaveBtn.IsEnabled = false;
+
+        LoadingIndicator.IsVisible = true;
+        LoadingIndicator.IsRunning = true;
+
+        try
         {
-            LabelProjectName.Text = result.FullPath;
-            try
+            var fileResult = await OpenfileUtils.PickAndShow(PickOptions.Default);
+            if (fileResult == null) return;
+
+            await Task.Run(() =>
             {
-                QiuFuncMainSingle.QiuFuncMain = new QiuFuncMain(new FileInfo(result.FullPath), null, null, true, false);
-                LabelInfo.Text = QiuFuncMainSingle.QiuFuncMain.getQuickInfo();
-                DataEditBtn.IsEnabled = true;
-                RunScriptBtn.IsEnabled = true;
-                SaveBtn.IsEnabled = true;
-            }
-            catch (Exception ex)
+                QiuFuncMainSingle.QiuFuncMain = new QiuFuncMain(
+                    new FileInfo(fileResult.FullPath),
+                    null, null, true, false);
+            });
+
+            LabelProjectName.Text = fileResult.FullPath;
+            LabelInfo.Text = QiuFuncMainSingle.QiuFuncMain.getQuickInfo();
+        }
+        catch (Exception ex)
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+                LabelInfo.Text = ex.Message);
+        }
+        finally
+        {
+            // 隐藏 Loading、恢复按钮
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                LabelInfo.Text = ex.Message;
-            }
+                LoadingIndicator.IsRunning = false;
+                LoadingIndicator.IsVisible = false;
+                OpenBtn.IsEnabled = DataEditBtn.IsEnabled = RunScriptBtn.IsEnabled = SaveBtn.IsEnabled = true;
+            });
         }
     }
 
@@ -101,13 +123,22 @@ public partial class MainPage : ContentPage
     private async void OnSaveBtnClicked(object? sender, EventArgs e)
     {
         QiuFuncMain.clearCallbacks();
-        var result=await MAUIBridge.SaveFile("data.win",CancellationToken.None);
-        if (result is not null)
+        var result = await MAUIBridge.SaveFile("data.win", CancellationToken.None);
+        if (result is not null && QiuFuncMainSingle.QiuFuncMain != null)
         {
             QiuFuncMainSingle.QiuFuncMain.SaveDataFile(result);
 #if ANDROID
             Bindme.dMsgDialog("导出成功","文件已保存至:"+result);
 #endif
+        }
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        if (QiuFuncMainSingle.QiuFuncMain != null)
+        {
+            LabelInfo.Text = QiuFuncMainSingle.QiuFuncMain.getQuickInfo();
         }
     }
 }
