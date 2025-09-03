@@ -74,10 +74,11 @@ public partial class DetailInfoInternativePage : ContentPage
     private void SetCurrentObject(object obj, string name)
     {
         currentObject = obj;
+        var previousName = _nameStack.Count <= 0 ? "" : (_nameStack.Peek() + " > ");
         _objectStack.Push(obj);
         _nameStack.Push(name);
 
-        CurrentObjectName = name;
+        CurrentObjectName = previousName + name;
         CanGoBack = _objectStack.Count > 1;
 
         Properties.Clear();
@@ -167,14 +168,14 @@ public partial class DetailInfoInternativePage : ContentPage
             foreach (var item in enumerable) count++;
             return $"集合[{count}]";
         }
-        
+
         //如果不是集合就是对象
 
-        var title=$"对象[{type.Name}]";
+        var title = $"对象[{type.Name}]";
 
         if (value is UndertaleString)
         {
-            title+=((UndertaleString)value).Content;
+            title += ((UndertaleString)value).Content;
         }
 
         if (value is UndertaleNamedResource)
@@ -230,7 +231,7 @@ public partial class DetailInfoInternativePage : ContentPage
         }
     }
 
-    #region ===== 新增：编辑入口 =====
+    #region ===== 编辑 =====
 
     /// <summary>
     /// 供 UI 调用的入口。
