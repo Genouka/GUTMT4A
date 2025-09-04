@@ -111,10 +111,11 @@ public partial class DataTreePage : ContentPage
         // 获取对象属性
         if (obj is IEnumerable enumerable && obj is not string)
         {
-            int idx = 0;
+            int titleIdx = 0;
             foreach (var item in enumerable)
             {
-                string title = $"[{idx}]";
+                string title = $"[{titleIdx}]";
+                titleIdx++;
                 string valuePreview = GetValuePreview(item);
                 bool isExpandable = IsExpandable(item);
                 if (!string.IsNullOrEmpty(filter) && !FuzzyMatch.IsMatch(title + valuePreview, filter)) continue;
@@ -126,7 +127,6 @@ public partial class DataTreePage : ContentPage
                     IsExpandable = isExpandable,
                     IndentLevel = 0
                 });
-                idx++;
             }
 
             Properties.AddRange(propertiesList);
