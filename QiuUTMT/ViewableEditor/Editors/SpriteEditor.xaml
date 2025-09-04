@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<editors:EditorPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:editors="clr-namespace:QiuUTMT.ViewableEditor.Editors"
+             x:Class="QiuUTMT.ViewableEditor.Editors.SpriteEditor">
+    <Grid RowDefinitions="Auto,*">
+        <ScrollView Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal">
+                <Button Text="返回" Clicked="OnConfirmClicked" />
+                <Button Text="导出" Clicked="ExportAll_Click" />
+            </StackLayout>
+        </ScrollView>
+        <Label Grid.Row="1">图片预览功能暂未完成，敬请期待</Label>
+        <!-- <CollectionView Grid.Row="1"  x:Name="ItemsCollectionView" -->
+        <!--                 SelectionMode="None" -->
+        <!--                 SelectedItems="{Binding SelectedItems}"> -->
+        <!--     <CollectionView.ItemTemplate> -->
+        <!--         <DataTemplate> -->
+        <!--             <Grid Padding="0"> -->
+        <!--                 <Grid.ColumnDefinitions> -->
+        <!--                     <ColumnDefinition Width="Auto" /> -->
+        <!--                     <ColumnDefinition Width="*" /> -->
+        <!--                 </Grid.ColumnDefinitions> -->
+        <!--                 <Label Grid.Column="1" Grid.Row="0" Text="{Binding Name}" -->
+        <!--                        FontAttributes="Bold" -->
+        <!--                        VerticalOptions="Center" /> -->
+        <!--                 <Button Text="Name"/> -->
+        <!--             </Grid> -->
+        <!--         </DataTemplate> -->
+        <!--     </CollectionView.ItemTemplate> -->
+        <!-- </CollectionView> -->
+    </Grid>
+    
+</editors:EditorPage>

@@ -141,8 +141,4 @@
       </Compile>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ViewableEditor\Editors\" />
-    </ItemGroup>
-
 </Project>

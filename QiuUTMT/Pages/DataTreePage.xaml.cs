@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using QiuUTMT.ViewableEditor.Editors;
 using UndertaleModLib;
 using UndertaleModLib.Models;
 using UTMTdrid;
@@ -22,21 +23,22 @@ public partial class DataTreePage : ContentPage
         SetCurrentObject(QiuFuncMainSingle.QiuFuncMain.Data, "区块表");
         TreeOrder.IsEnabled = false;
         ViewableEditor.IsEnabled = false;
+        ViewableEditor.IsEnabled = false;
     }
 
     public class PropertyItem
     {
-        public string Name { get; set; }
-        public string Value { get; set; }
-        public object OriginalValue { get; set; }
-        public object OriginalType { get; set; }
+        public string? Name { get; set; }
+        public string? Value { get; set; }
+        public object? OriginalValue { get; set; }
+        public Type? OriginalType { get; set; }
         public bool IsExpandable { get; set; }
         public int IndentLevel { get; set; }
         public bool IsExpanded { get; set; }
     }
 
 
-    private object currentObject;
+    private object? _currentObject;
     private string _currentPathName = "根对象";
     private Stack<object> _objectStack = new Stack<object>();
     private Stack<string> _nameStack = new Stack<string>();
@@ -85,7 +87,9 @@ public partial class DataTreePage : ContentPage
     /// <param name="filter">过滤器(目前的实现是模糊搜索)</param>
     private void SetCurrentObject(object obj, string name, string? filter = null)
     {
-        currentObject = obj;
+        TreeOrder.IsEnabled = false;
+        ViewableEditor.IsEnabled = false;
+        _currentObject = obj;
         var previousName = _nameStack.Count <= 0 ? "" : (_nameStack.Peek() + " > ");
         _objectStack.Push(obj);
         _nameStack.Push(name);
@@ -111,6 +115,7 @@ public partial class DataTreePage : ContentPage
         // 获取对象属性
         if (obj is IEnumerable enumerable && obj is not string)
         {
+            //是集合
             int titleIdx = 0;
             foreach (var item in enumerable)
             {
@@ -128,11 +133,12 @@ public partial class DataTreePage : ContentPage
                     IndentLevel = 0
                 });
             }
-
             Properties.AddRange(propertiesList);
+            TreeOrder.IsEnabled = true;
         }
         else
         {
+            //是对象(含枚举)
             foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(obj))
             {
                 try
@@ -168,7 +174,10 @@ public partial class DataTreePage : ContentPage
 
             Properties.AddRange(propertiesList);
         }
-
+        if (EditorPages.EditorPagesConstructors.TryGetValue(_currentObject.GetType(),out var _))
+        {
+            ViewableEditor.IsEnabled = true;
+        }
         if (string.IsNullOrEmpty(filter))
         {
             StatusMessage = $"已加载 {Properties.Count} 个属性";
@@ -181,56 +190,63 @@ public partial class DataTreePage : ContentPage
 
     private string GetValuePreview(object? value, Type? originalType = null)
     {
-        if (value == null)
+        try
         {
-            if (originalType != null)
+            if (value == null)
             {
-                return $"[{originalType.Name}]null";
+                if (originalType != null)
+                {
+                    return $"[{originalType.Name}]null";
+                }
+
+                return "null";
             }
 
-            return "null";
-        }
+            var type = value.GetType();
+            if (type.IsEnum)
+                return $"枚举[{type.Name}]{(ulong)value} ({value})";
 
-        var type = value.GetType();
-        if (type.IsEnum)
-            return $"枚举[{type.Name}]{(ulong)value}({value})";
+            if (type.IsPrimitive || type == typeof(string))
+                return value.ToString() ?? "[string]null";
 
-        if (type.IsPrimitive || type == typeof(string))
-            return value.ToString();
+            if (type == typeof(DateTime))
+                return ((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss");
 
-        if (type == typeof(DateTime))
-            return ((DateTime)value).ToString("yyyy-MM-dd HH:mm:ss");
-
-        if (value is IEnumerable enumerable && !(value is string))
-        {
-            int count = 0;
-            if (value is ICollection list)
+            if (value is IEnumerable enumerable && !(value is string))
             {
-                count = list.Count;
+                int count = 0;
+                if (value is ICollection list)
+                {
+                    count = list.Count;
+                }
+                else
+                {
+                    foreach (var item in enumerable) count++;
+                }
+
+                return $"集合[{type.Name}][{count}]";
             }
-            else
+
+            //如果不是集合就是对象
+
+            var title = $"对象[{type.Name}]";
+
+            if (value is UndertaleString undertaleString)
             {
-                foreach (var item in enumerable) count++;
+                title += undertaleString.Content ?? "";
             }
 
-            return $"集合[{type.Name}][{count}]";
+            if (value is UndertaleNamedResource undertaleNamedResource)
+            {
+                if(undertaleNamedResource.Name != null) title += undertaleNamedResource.Name.Content ?? "";
+            }
+
+            return title;
         }
-
-        //如果不是集合就是对象
-
-        var title = $"对象[{type.Name}]";
-
-        if (value is UndertaleString undertaleString)
+        catch (Exception ex)
         {
-            title += undertaleString.Content;
+            return "<错误>"+ex.Message;
         }
-
-        if (value is UndertaleNamedResource undertaleNamedResource)
-        {
-            title += undertaleNamedResource.Name.Content;
-        }
-
-        return title;
     }
 
     /// <summary>
@@ -304,30 +320,64 @@ public partial class DataTreePage : ContentPage
         if (item == null) return;
 
         // 基本类型、字符串、DateTime 才允许编辑，可自行扩展
-        var type = item.OriginalValue?.GetType();
-        if (type == null ||
-            (!type.IsPrimitive && type != typeof(string) && type != typeof(DateTime)))
+        Type? type = item.OriginalValue?.GetType();
+        if (type == null)
+        {
+            type = item.OriginalType;
+        }
+
+        if (type == null)
         {
             await DisplayAlert("提示", "该属性不支持编辑", "OK");
             return;
         }
 
+        string newText;
         // 弹窗输入
-        string newText = await DisplayPromptAsync(
-            $"编辑 {item.Name}",
-            "请输入新的值：",
-            initialValue: item.OriginalValue?.ToString() ?? string.Empty,
-            keyboard: Keyboard.Text);
+        if (type.IsEnum)
+        {
+            var list = new List<MultiSelectDialogPage.Item>();
+            ulong enumValues = (ulong)(item.OriginalValue ?? 0);
+            foreach (ulong value in Enum.GetValues(type))
+            {
+                
+                list.Add(new MultiSelectDialogPage.Item
+                {
+                    Name = Enum.GetName(type,value) ?? ("" + value),
+                    Checked = (enumValues&value) == value
+                });
+            }
+
+            var items = new ObservableCollection<MultiSelectDialogPage.Item>(list);
+
+            var popup = new MultiSelectDialogPage(items);
+            await Navigation.PushModalAsync(popup);
+            await popup.TaskCompletion.Task;
+            StringBuilder str = new();
+            foreach (MultiSelectDialogPage.Item popupItem in popup.Items)
+            {
+                if (popupItem.Checked) str.Append(popupItem.Name).Append(',');
+            }
+
+            newText = str.ToString(0, str.Length - 1);
+        }
+        else
+        {
+            newText = await DisplayPromptAsync(
+                $"编辑 {item.Name}",
+                "请输入新的值：",
+                initialValue: item.OriginalValue?.ToString() ?? string.Empty,
+                keyboard: Keyboard.Text);
+        }
 
         if (newText == null) return; // 用户取消
 
-        // 类型转换
-        object newValue = ConvertStringToTargetType(newText, type);
-
         try
         {
+            // 类型转换
+            object newValue = ConvertStringToTargetType(newText, type);
             // 把值写回到原对象
-            WriteValueBackToInstance(currentObject, item.Name, newValue);
+            WriteValueBackToInstance(_currentObject, item.Name, newValue);
             // 刷新 UI
             RefreshListUI();
         }
@@ -361,6 +411,7 @@ public partial class DataTreePage : ContentPage
         if (targetType == typeof(string)) return text;
         if (targetType == typeof(DateTime) && DateTime.TryParse(text, out var dt)) return dt;
         if (targetType == typeof(bool)) return bool.Parse(text);
+        if (targetType.IsEnum) return Enum.Parse(targetType, text, true);
         return Convert.ChangeType(text, targetType);
     }
 
@@ -428,10 +479,18 @@ public partial class DataTreePage : ContentPage
         }
     }
 
-    private void ViewableEditor_OnClicked(object? sender, EventArgs e)
+    private async void ViewableEditor_OnClicked(object? sender, EventArgs e)
     {
         var currentObject = _objectStack.Peek();
         var currentName = _nameStack.Peek();
+        if (!EditorPages.EditorPagesConstructors.TryGetValue(currentObject.GetType(), out var instantiator))
+        {
+            await DisplayAlert("错误", "当前对象没有可用的扩充视图", "OK");
+        }
+        var page=instantiator(currentObject);
+        await Navigation.PushModalAsync(page);
+        await page.TaskCompletion.Task;
+        RefreshListUI();
     }
 
     private async void MenuItem_AsUnExpandedObjectEdit_OnClicked(object? sender, EventArgs e)
@@ -444,6 +503,7 @@ public partial class DataTreePage : ContentPage
         }
         else
         {
+            //这是不可能到达的地方
             await DisplayAlert("无法作为非展开对象编辑", "contextItem is not PropertyItem", "OK");
         }
     }

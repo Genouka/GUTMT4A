@@ -15,10 +15,9 @@ public class DynamicListHelper
 
         // 使用反射创建 T 的实例（假设有无参构造函数）
         T newItem = (T)Activator.CreateInstance(itemType);
-
-        // 添加到集合
-        list.Add(newItem);
+        if (newItem != null) list.Add(newItem);
     }
+
     public static void AddDynamicItem(IList list)
     {
         Type listType = list.GetType();
@@ -27,13 +26,12 @@ public class DynamicListHelper
         if (listType.IsGenericType)
         {
             // 获取泛型参数 T
-            Type itemType = listType.GetGenericArguments()[0];
+            //Type itemType = listType.GetGenericArguments()[0];
+            Type itemType= list.Count>=1 && list[0]!=null ? list[0].GetType() : listType.GetGenericArguments()[0];
 
             // 创建实例
             object newItem = Activator.CreateInstance(itemType);
-
-            // 通过非泛型接口添加
-            list.Add(newItem);
+            if (newItem != null) list.Add(newItem);
         }
         else
         {

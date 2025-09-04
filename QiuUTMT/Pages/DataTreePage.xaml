@@ -32,7 +32,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Text="作为非展开项编辑" Clicked="MenuItem_AsUnExpandedObjectEdit_OnClicked"/>
+                            <MenuItem Text="编辑" Clicked="MenuItem_AsUnExpandedObjectEdit_OnClicked"/>
                             <MenuItem IsEnabled="false" Text="调换次序" />
                             <MenuItem IsEnabled="false" Text="删除该属性"/>
                             <MenuItem IsEnabled="false" Text="设为null" />
@@ -51,9 +51,9 @@
                                    VerticalOptions="Center" />
                             <Label Grid.Column="0" Grid.Row="1" Text="{Binding Value}"
                                    VerticalOptions="Fill"
-                                   LineBreakMode="CharacterWrap"
+                                   LineBreakMode="TailTruncation"
                                    FontSize="10"
-                                   MaxLines="-1" />
+                                   MaxLines="2" />
                             <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2"
                                    Source="{Binding IsExpandable, Converter={StaticResource ExpandableIconConverter}}"
                                    WidthRequest="20" HeightRequest="20"
@@ -74,7 +74,7 @@
             <Button
                 x:Name="ViewableEditor"
                 Clicked="ViewableEditor_OnClicked"
-                Text="解析视窗"/>
+                Text="扩充视窗"/>
             <Label x:Name="LabelStatus" />
         </StackLayout>
     </Grid>
