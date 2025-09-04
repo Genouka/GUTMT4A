@@ -20,6 +20,7 @@ public partial class DataTreePage : ContentPage
         public string Name { get; set; }
         public string Value { get; set; }
         public object OriginalValue { get; set; }
+        public object OriginalType { get; set; }
         public bool IsExpandable { get; set; }
         public int IndentLevel { get; set; }
         public bool IsExpanded { get; set; }
@@ -71,7 +72,7 @@ public partial class DataTreePage : ContentPage
         }
     }
 
-    private void SetCurrentObject(object obj, string name)
+    private void SetCurrentObject(object obj, string name,string? filter=null)
     {
         currentObject = obj;
         var previousName = _nameStack.Count <= 0 ? "" : (_nameStack.Peek() + " > ");
@@ -105,7 +106,7 @@ public partial class DataTreePage : ContentPage
                 string title = $"[{idx}]";
                 string valuePreview = GetValuePreview(item);
                 bool isExpandable = IsExpandable(item);
-
+                if (!string.IsNullOrEmpty(filter)&&!FuzzyMatch.IsMatch(title+valuePreview,filter)) continue;
                 propertiesList.Add(new PropertyItem
                 {
                     Name = title,
@@ -125,21 +126,24 @@ public partial class DataTreePage : ContentPage
             {
                 try
                 {
-                    object value = descriptor.GetValue(obj);
-                    string valuePreview = GetValuePreview(value);
+                    Type type = descriptor.PropertyType;
+                    object? value = descriptor.GetValue(obj);
+                    string valuePreview = GetValuePreview(value,type);
                     bool isExpandable = IsExpandable(value);
-
+                    if (!string.IsNullOrEmpty(filter)&&!FuzzyMatch.IsMatch(descriptor.Name+valuePreview,filter)) continue;
                     propertiesList.Add(new PropertyItem
                     {
                         Name = descriptor.Name,
                         Value = valuePreview,
                         OriginalValue = value,
+                        OriginalType = type,
                         IsExpandable = isExpandable,
                         IndentLevel = 0
                     });
                 }
                 catch (Exception ex)
                 {
+                    if (!string.IsNullOrEmpty(filter)&&!FuzzyMatch.IsMatch(descriptor.Name,filter)) continue;
                     propertiesList.Add(new PropertyItem
                     {
                         Name = descriptor.Name,
@@ -153,14 +157,31 @@ public partial class DataTreePage : ContentPage
             Properties.AddRange(propertiesList);
         }
 
-        StatusMessage = $"已加载 {Properties.Count} 个属性";
+        if (string.IsNullOrEmpty(filter))
+        {
+            StatusMessage = $"已加载 {Properties.Count} 个属性";
+        }
+        else
+        {
+            StatusMessage = $"当前层级有 {Properties.Count} 个搜索结果";
+        }
     }
 
-    private string GetValuePreview(object value)
+    private string GetValuePreview(object? value,Type? originalType=null)
     {
-        if (value == null) return "null";
+        if (value == null)
+        {
+            if (originalType != null)
+            {
+                return $"[{originalType.Name}]null";
+            }
+            return "null";
+        }
 
         var type = value.GetType();
+        if (type.IsEnum)
+            return $"枚举[{type.Name}]{(ulong)value}({value})";
+
         if (type.IsPrimitive || type == typeof(string))
             return value.ToString();
 
@@ -179,7 +200,7 @@ public partial class DataTreePage : ContentPage
                 foreach (var item in enumerable) count++;
             }
 
-            return $"集合[{count}]";
+            return $"集合[{type.Name}][{count}]";
         }
 
         //如果不是集合就是对象
@@ -207,7 +228,9 @@ public partial class DataTreePage : ContentPage
         // 基本类型、字符串、日期等不可展开
         if (type.IsPrimitive || type == typeof(string) || type == typeof(DateTime))
             return false;
-
+        // 枚举不可展开
+        if (type.IsEnum)
+            return false;
         // 集合也可以展开
         return true;
     }
@@ -276,8 +299,7 @@ public partial class DataTreePage : ContentPage
             $"编辑 {item.Name}",
             "请输入新的值：",
             initialValue: item.OriginalValue?.ToString() ?? string.Empty,
-            maxLength: 200,
-            keyboard: type == typeof(string) ? Keyboard.Text : Keyboard.Numeric);
+            keyboard: Keyboard.Text);
 
         if (newText == null) return; // 用户取消
 
@@ -297,7 +319,7 @@ public partial class DataTreePage : ContentPage
         }
     }
 
-    private void RefreshListUI()
+    private void RefreshListUI(string? filter=null)
     {
         // 获取当前对象
         var previousObject = _objectStack.Peek();
@@ -306,7 +328,7 @@ public partial class DataTreePage : ContentPage
         _objectStack.Pop();
         _nameStack.Pop();
         // 更新UI
-        SetCurrentObject(previousObject, previousName);
+        SetCurrentObject(previousObject, previousName,filter);
     }
 
     /// <summary>
@@ -316,6 +338,7 @@ public partial class DataTreePage : ContentPage
     {
         if (targetType == typeof(string)) return text;
         if (targetType == typeof(DateTime) && DateTime.TryParse(text, out var dt)) return dt;
+        if (targetType == typeof(bool)) return bool.Parse(text);
         return Convert.ChangeType(text, targetType);
     }
 
@@ -346,4 +369,9 @@ public partial class DataTreePage : ContentPage
     }
 
     #endregion
+
+    private void SearchBar_OnTextChanged(object? sender, TextChangedEventArgs e)
+    {
+        RefreshListUI(e.NewTextValue);
+    }
 }
