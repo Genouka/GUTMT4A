@@ -15,6 +15,15 @@ namespace QiuUTMT;
 
 public partial class DataTreePage : ContentPage
 {
+    public DataTreePage()
+    {
+        InitializeComponent();
+        BindingContext = this;
+        SetCurrentObject(QiuFuncMainSingle.QiuFuncMain.Data, "区块表");
+        TreeOrder.IsEnabled = false;
+        ViewableEditor.IsEnabled = false;
+    }
+
     public class PropertyItem
     {
         public string Name { get; set; }
@@ -26,29 +35,25 @@ public partial class DataTreePage : ContentPage
         public bool IsExpanded { get; set; }
     }
 
-    public DataTreePage()
-    {
-        InitializeComponent();
-        BindingContext = this;
-        SetCurrentObject(QiuFuncMainSingle.QiuFuncMain.Data, "GM数据对象");
-    }
 
     private object currentObject;
-    private string _currentObjectName = "根对象";
+    private string _currentPathName = "根对象";
     private Stack<object> _objectStack = new Stack<object>();
     private Stack<string> _nameStack = new Stack<string>();
     private string _statusMessage = "就绪";
     private bool _canGoBack = false;
 
+    #region ===== 树状导航实现 =====
+
     public RangeObservableCollection<PropertyItem> Properties { get; } = new();
 
-    public string CurrentObjectName
+    public string CurrentPathName
     {
-        get => _currentObjectName;
+        get => _currentPathName;
         set
         {
-            _currentObjectName = value;
-            LabelObjectName.Text = value;
+            _currentPathName = value;
+            LabelPathName.Text = value;
         }
     }
 
@@ -72,14 +77,20 @@ public partial class DataTreePage : ContentPage
         }
     }
 
-    private void SetCurrentObject(object obj, string name,string? filter=null)
+    /// <summary>
+    /// 设定树状导航中当前层级的所有列表子项，并将数据和路径堆栈
+    /// </summary>
+    /// <param name="obj">要堆栈的数据</param>
+    /// <param name="name">堆栈数据的名称</param>
+    /// <param name="filter">过滤器(目前的实现是模糊搜索)</param>
+    private void SetCurrentObject(object obj, string name, string? filter = null)
     {
         currentObject = obj;
         var previousName = _nameStack.Count <= 0 ? "" : (_nameStack.Peek() + " > ");
         _objectStack.Push(obj);
         _nameStack.Push(name);
 
-        CurrentObjectName = previousName + name;
+        CurrentPathName = previousName + name;
         CanGoBack = _objectStack.Count > 1;
 
         Properties.Clear();
@@ -106,7 +117,7 @@ public partial class DataTreePage : ContentPage
                 string title = $"[{idx}]";
                 string valuePreview = GetValuePreview(item);
                 bool isExpandable = IsExpandable(item);
-                if (!string.IsNullOrEmpty(filter)&&!FuzzyMatch.IsMatch(title+valuePreview,filter)) continue;
+                if (!string.IsNullOrEmpty(filter) && !FuzzyMatch.IsMatch(title + valuePreview, filter)) continue;
                 propertiesList.Add(new PropertyItem
                 {
                     Name = title,
@@ -128,9 +139,10 @@ public partial class DataTreePage : ContentPage
                 {
                     Type type = descriptor.PropertyType;
                     object? value = descriptor.GetValue(obj);
-                    string valuePreview = GetValuePreview(value,type);
+                    string valuePreview = GetValuePreview(value, type);
                     bool isExpandable = IsExpandable(value);
-                    if (!string.IsNullOrEmpty(filter)&&!FuzzyMatch.IsMatch(descriptor.Name+valuePreview,filter)) continue;
+                    if (!string.IsNullOrEmpty(filter) &&
+                        !FuzzyMatch.IsMatch(descriptor.Name + valuePreview, filter)) continue;
                     propertiesList.Add(new PropertyItem
                     {
                         Name = descriptor.Name,
@@ -143,7 +155,7 @@ public partial class DataTreePage : ContentPage
                 }
                 catch (Exception ex)
                 {
-                    if (!string.IsNullOrEmpty(filter)&&!FuzzyMatch.IsMatch(descriptor.Name,filter)) continue;
+                    if (!string.IsNullOrEmpty(filter) && !FuzzyMatch.IsMatch(descriptor.Name, filter)) continue;
                     propertiesList.Add(new PropertyItem
                     {
                         Name = descriptor.Name,
@@ -167,7 +179,7 @@ public partial class DataTreePage : ContentPage
         }
     }
 
-    private string GetValuePreview(object? value,Type? originalType=null)
+    private string GetValuePreview(object? value, Type? originalType = null)
     {
         if (value == null)
         {
@@ -175,6 +187,7 @@ public partial class DataTreePage : ContentPage
             {
                 return $"[{originalType.Name}]null";
             }
+
             return "null";
         }
 
@@ -220,6 +233,11 @@ public partial class DataTreePage : ContentPage
         return title;
     }
 
+    /// <summary>
+    /// 判断项目是否是属于不可展开类型的，从而判断是直接编辑还是跳到下一级树状图
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
     private bool IsExpandable(object value)
     {
         if (value == null) return false;
@@ -274,12 +292,12 @@ public partial class DataTreePage : ContentPage
         }
     }
 
-    #region ===== 编辑 =====
+    #endregion
+
+    #region ===== 不可展开项目编辑视窗 =====
 
     /// <summary>
-    /// 供 UI 调用的入口。
-    /// 在 XAML 里给显示 Value 的控件加一个 TapGestureRecognizer，
-    /// CommandParameter="{Binding .}"，然后把 Command 指到这里即可。
+    /// 弹出编辑不可展开项目的UI
     /// </summary>
     private async Task EditPropertyAsync(PropertyItem item)
     {
@@ -319,7 +337,11 @@ public partial class DataTreePage : ContentPage
         }
     }
 
-    private void RefreshListUI(string? filter=null)
+    /// <summary>
+    /// 刷新当前层级列表的UI
+    /// </summary>
+    /// <param name="filter">过滤器(模糊搜索的关键词,显示全部设为null)</param>
+    private void RefreshListUI(string? filter = null)
     {
         // 获取当前对象
         var previousObject = _objectStack.Peek();
@@ -328,7 +350,7 @@ public partial class DataTreePage : ContentPage
         _objectStack.Pop();
         _nameStack.Pop();
         // 更新UI
-        SetCurrentObject(previousObject, previousName,filter);
+        SetCurrentObject(previousObject, previousName, filter);
     }
 
     /// <summary>
@@ -373,5 +395,56 @@ public partial class DataTreePage : ContentPage
     private void SearchBar_OnTextChanged(object? sender, TextChangedEventArgs e)
     {
         RefreshListUI(e.NewTextValue);
+    }
+
+    private async void TreeOrder_OnClicked(object? sender, EventArgs e)
+    {
+        var currentObject = _objectStack.Peek();
+        var currentName = _nameStack.Peek();
+        const String optionCreateObject = "新增对象";
+        var list = new[]
+        {
+            optionCreateObject
+        };
+        string action = await DisplayActionSheet($"操作 {currentName}", "取消", null, list);
+        if (action == null) return;
+        switch (action)
+        {
+            case optionCreateObject:
+                if (currentObject is IList currentList)
+                {
+                    try
+                    {
+                        DynamicListHelper.AddDynamicItem(currentList);
+                        RefreshListUI();
+                    }
+                    catch (Exception ex)
+                    {
+                        await DisplayAlert("添加对象错误", ex.Message, "OK");
+                    }
+                }
+
+                break;
+        }
+    }
+
+    private void ViewableEditor_OnClicked(object? sender, EventArgs e)
+    {
+        var currentObject = _objectStack.Peek();
+        var currentName = _nameStack.Peek();
+    }
+
+    private async void MenuItem_AsUnExpandedObjectEdit_OnClicked(object? sender, EventArgs e)
+    {
+        MenuItem item = sender as MenuItem;
+        var contextItem = item.BindingContext;
+        if (contextItem is PropertyItem property)
+        {
+            await EditPropertyAsync(property);
+        }
+        else
+        {
+            await DisplayAlert("无法作为非展开对象编辑", "contextItem is not PropertyItem", "OK");
+        }
     }
 }

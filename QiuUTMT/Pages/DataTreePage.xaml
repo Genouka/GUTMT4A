@@ -19,7 +19,7 @@
                 x:Name="ButtonBack"
                 Text="上一级"
                 Clicked="OnBackButtonClicked" />
-            <Label x:Name="LabelObjectName"
+            <Label x:Name="LabelPathName"
                    VerticalOptions="Center"
                    FontSize="16" FontAttributes="Bold"
                    Margin="10,0,0,0" />
@@ -31,6 +31,12 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="作为非展开项编辑" Clicked="MenuItem_AsUnExpandedObjectEdit_OnClicked"/>
+                            <MenuItem IsEnabled="false" Text="调换次序" />
+                            <MenuItem IsEnabled="false" Text="删除该属性"/>
+                            <MenuItem IsEnabled="false" Text="设为null" />
+                        </ViewCell.ContextActions>
                         <Grid Padding="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
@@ -62,11 +68,13 @@
         <!-- 底部状态栏 -->
         <StackLayout Grid.Row="3" Orientation="Horizontal" Padding="10">
             <Button
-                x:Name=""
-                Text="操作"/>
+                x:Name="TreeOrder"
+                Clicked="TreeOrder_OnClicked"
+                Text="层级操作"/>
             <Button
-                x:Name=""
-                Text="可视化"/>
+                x:Name="ViewableEditor"
+                Clicked="ViewableEditor_OnClicked"
+                Text="解析视窗"/>
             <Label x:Name="LabelStatus" />
         </StackLayout>
     </Grid>
