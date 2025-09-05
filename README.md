@@ -34,12 +34,12 @@ This is an amazing Undertale Mod Tool GUI for Android (Standalone implement).
   * [x] 基本界面实现
   * [x] 树状导航 
   * [x] 对象数据查看
-  * [ ] 对象数据编辑
-  * [ ] 集合数据查看
-  * [ ] 集合数据编辑
-  * [ ] 图像可视化编辑
-  * [ ] 数据检索
-  * [ ] 数据关联
+  * [x] 对象数据编辑
+  * [x] 集合数据查看
+  * [x] 集合数据编辑
+  * [x] 图像可视化编辑(待完善)
+  * [x] 数据检索(待完善)
+  * [x] 数据关联(目前仅脚本支持)
   * GML代码维护
     * [ ] 代码编辑器
     * [ ] 语法检查和重编译
@@ -50,17 +50,25 @@ This is an amazing Undertale Mod Tool GUI for Android (Standalone implement).
   * [x] 运行时目录选择器
   * [x] 运行时文件打开选择器
   * [x] 运行时文件保存选择器
-  * [ ] Maigck.NET 相关功能的支持(详见 https://github.com/Genouka/GUTMT4A/issues/2 )
+  * [x] Maigck.NET 相关功能的支持使用SkiaSharp库替代(详见 https://github.com/Genouka/GUTMT4A/issues/2 )
 
 ## 许可证/LICENSE
 
 禁止上传到谷歌商店等应用商店或平台，以及加入广告等内容后重新分发。
 
-基于GPL3.0或更新版本进行授权
- 
+QiuLibCore、QiuSkiaBridge、QiuUTMT三个模块在不引用 GPL3.0 的模块的时候以MPL2.0进行授权，在引用 GPL3.0 的模块的时候以 GPL3.0 或更新版本进行授权。
+
+这样做是为了以后能够解耦合的将代码运用于其他项目。
+
+其余未放置LICENSE文件的目录下的代码基于GPL3.0或更新版本进行授权。
+
 Prohibit uploading to app stores or platforms such as Google Play, as well as redistributing content after adding advertisements or other similiar actions.
 
-Licensed under GPL 3.0 or later.
+The QiuLibCore, QiuSkiaBridge, and QiuUTMT modules are authorized using MPL2.0 when not referencing GPL3.0 modules, and GPL3.0 or later versions when referencing GPL3.0 modules.
+
+This is done in order to decouple and apply the code to other projects in the future.
+
+The code in the directory where the LICENSE file is not placed is authorized based on GPL3.0 or later versions.
 
 ## 鸣谢/Thanks
 如果没有以下项目作为基础，本项目将永远不会诞生！
