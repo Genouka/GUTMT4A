@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ public partial class MultiSelectDialogPage : ContentPage
         await Navigation.PopModalAsync();
     }
 
-    public partial class Item
+    public partial class Item: INotifyPropertyChanged
     {
         public string Title { get; set; }
         public object Value { get; set; }
@@ -44,15 +45,14 @@ public partial class MultiSelectDialogPage : ContentPage
         {
             item.Checked = false;
         }
-        ItemsCollectionView.ItemsSource = Items;
     }
 
     private void OnRevertSelectClicked(object? sender, EventArgs e)
     {
+        
         foreach (Item item in Items)
         {
             item.Checked = !item.Checked;
         }
-        ItemsCollectionView.ItemsSource = Items;
     }
 }

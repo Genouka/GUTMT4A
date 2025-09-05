@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -516,6 +517,170 @@ public partial class DataTreePage : ContentPage
         if (contextItem is PropertyItem property)
         {
             await EditPropertyAsync(property);
+        }
+        else
+        {
+            //这是不可能到达的地方
+            await DisplayAlert("无法作为非展开对象编辑", "contextItem is not PropertyItem", "OK");
+        }
+    }
+
+    private async void MenuItem_SetToNull_OnClicked(object? sender, EventArgs e)
+    {
+        MenuItem item = sender as MenuItem;
+        var contextItem = item.BindingContext;
+        if (contextItem is PropertyItem property)
+        {
+            if (property.OriginalValue == null)
+            {
+                await DisplayAlert("警告", "所设置对象已经是 null 了", "OK");
+                return;
+            }
+
+            var currentObject = _objectStack.Count > 0 ? _objectStack.Peek() : null;
+            if (currentObject == null)
+            {
+                await DisplayAlert("错误", "无根对象", "OK");
+            }
+            else if (currentObject is IList currentList)
+            {
+                currentList[currentList.IndexOf(property.OriginalValue)] = null;
+            }
+            else
+            {
+                DynamicListHelper.SetMemberToNull(currentObject, property.OriginalValue.GetType().Name);
+            }
+        }
+        else
+        {
+            //这是不可能到达的地方
+            await DisplayAlert("无法作为非展开对象编辑", "contextItem is not PropertyItem", "OK");
+        }
+    }
+
+    private async void MenuItem_Delete_OnClicked(object? sender, EventArgs e)
+    {
+        MenuItem item = sender as MenuItem;
+        var contextItem = item.BindingContext;
+        if (contextItem is PropertyItem property)
+        {
+            var currentObject = _objectStack.Count > 0 ? _objectStack.Peek() : null;
+            if (currentObject == null)
+            {
+                await DisplayAlert("错误", "无根对象", "OK");
+            }
+            else if (currentObject is IList currentList)
+            {
+                currentList.Remove(currentList.IndexOf(property.OriginalValue));
+            }
+            else
+            {
+                await DisplayAlert("错误", "所删除对象必须是集合中的项", "OK");
+            }
+        }
+        else
+        {
+            //这是不可能到达的地方
+            await DisplayAlert("无法作为非展开对象编辑", "contextItem is not PropertyItem", "OK");
+        }
+    }
+
+    private async void MenuItem_Swap_OnClicked(object? sender, EventArgs e)
+    {
+        MenuItem item = sender as MenuItem;
+        var contextItem = item.BindingContext;
+        if (contextItem is PropertyItem property)
+        {
+            var currentObject = _objectStack.Count > 0 ? _objectStack.Peek() : null;
+            if (currentObject == null)
+            {
+                await DisplayAlert("错误", "无根对象", "OK");
+            }
+            else if (currentObject is IList currentList)
+            {
+                var index = currentList.IndexOf(property.OriginalValue);
+                var result = await MAUIBridge.InputDialog($"当前的次序为[{index}]", "输入要调换对象的次序");
+                if (result != null)
+                {
+                    int resultInt;
+                    try
+                    {
+                        resultInt = Convert.ToInt32(result);
+                    }
+                    catch (Exception ex)
+                    {
+                        await DisplayAlert("错误", "输入的必须是整数\n" + ex.Message, "OK");
+                        return;
+                    }
+
+                    if (resultInt >= currentList.Count && resultInt < 0)
+                    {
+                        await DisplayAlert("错误", "输入的次序不存在于列表当中", "OK");
+                        return;
+                    }
+
+                    var swapObj = currentList[resultInt];
+                    currentList[resultInt] = property.OriginalValue;
+                    currentList[index] = swapObj;
+                }
+            }
+            else
+            {
+                await DisplayAlert("错误", "执行该操作的对象必须是集合中的项", "OK");
+            }
+        }
+        else
+        {
+            //这是不可能到达的地方
+            await DisplayAlert("无法作为非展开对象编辑", "contextItem is not PropertyItem", "OK");
+        }
+    }
+
+    private async void MenuItem_Move_OnClicked(object? sender, EventArgs e)
+    {
+        MenuItem item = sender as MenuItem;
+        var contextItem = item.BindingContext;
+        if (contextItem is PropertyItem property)
+        {
+            var currentObject = _objectStack.Count > 0 ? _objectStack.Peek() : null;
+            if (currentObject == null)
+            {
+                await DisplayAlert("错误", "无根对象", "OK");
+            }
+            else if (currentObject is IList currentList)
+            {
+                var index = currentList.IndexOf(property.OriginalValue);
+                var result = await MAUIBridge.InputDialog($"当前的次序为[{index}]",
+                    "输入要移动到原本哪个对象的后面?\n" +
+                    "请输入那个对象的次序\n" +
+                    "如果要移动到列表首位请输入-1");
+                if (result != null)
+                {
+                    int resultInt;
+                    try
+                    {
+                        resultInt = Convert.ToInt32(result);
+                    }
+                    catch (Exception ex)
+                    {
+                        await DisplayAlert("错误", "输入的必须是整数\n" + ex.Message, "OK");
+                        return;
+                    }
+
+                    if (resultInt >= currentList.Count && resultInt < -1)
+                    {
+                        await DisplayAlert("错误", "输入的次序不存在于列表当中", "OK");
+                        return;
+                    }
+
+                    currentList.RemoveAt(index);
+                    currentList.Insert(index < resultInt ? resultInt : (resultInt+1), property.OriginalValue);
+                }
+            }
+            else
+            {
+                await DisplayAlert("错误", "执行该操作的对象必须是集合中的项", "OK");
+            }
         }
         else
         {

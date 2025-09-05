@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:android="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;assembly=Microsoft.Maui.Controls"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="GUTMT - 数据窗格"
              x:Class="QiuUTMT.DataTreePage">
@@ -26,16 +27,19 @@
         </StackLayout>
 
         <!-- 属性列表 -->
-        <ListView Grid.Row="2" ItemsSource="{Binding Properties}"
-                  ItemSelected="OnPropertySelected">
+        <ListView Grid.Row="2"
+                  ItemsSource="{Binding Properties}"
+                  ItemSelected="OnPropertySelected"
+                  android:ListView.IsFastScrollEnabled="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
                             <MenuItem Text="编辑" Clicked="MenuItem_AsUnExpandedObjectEdit_OnClicked"/>
-                            <MenuItem IsEnabled="false" Text="调换次序" />
-                            <MenuItem IsEnabled="false" Text="删除该属性"/>
-                            <MenuItem IsEnabled="false" Text="设为null" />
+                            <MenuItem Text="与某对象对调次序" Clicked="MenuItem_Swap_OnClicked"/>
+                            <MenuItem Text="(危险)移动次序" Clicked="MenuItem_Move_OnClicked"/>
+                            <MenuItem Text="(危险)删除" Clicked="MenuItem_Delete_OnClicked"/>
+                            <MenuItem Text="(危险)设为null" Clicked="MenuItem_SetToNull_OnClicked" />
                         </ViewCell.ContextActions>
                         <Grid Padding="0">
                             <Grid.RowDefinitions>

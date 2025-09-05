@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QiuUTMT.MultiSelectDialogPage"
              Title="请选择">
-    <Grid RowDefinitions="Auto,*" ColumnDefinitions="Auto,Auto,Auto">
+    <Grid RowDefinitions="Auto,*" ColumnDefinitions="Auto,*,*">
         <Button Grid.Row="0" Grid.Column="0" Text="返回" Clicked="OnConfirmClicked" />
         <Button Grid.Row="0" Grid.Column="1" Text="清空" Clicked="OnClearClicked" />
         <Button Grid.Row="0" Grid.Column="2" Text="反选" Clicked="OnRevertSelectClicked" />
