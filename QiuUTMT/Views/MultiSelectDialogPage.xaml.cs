@@ -7,14 +7,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace QiuUTMT;
+
 public partial class MultiSelectDialogPage : ContentPage
 {
     public ObservableCollection<Item> Items { get; set; }
     public TaskCompletionSource<bool> TaskCompletion { get; set; }
+
     public MultiSelectDialogPage(ObservableCollection<Item> items)
     {
         InitializeComponent();
-        TaskCompletion=new TaskCompletionSource<bool>();
+        TaskCompletion = new TaskCompletionSource<bool>();
         Items = items;
         ItemsCollectionView.ItemsSource = Items;
         BindingContext = this;
@@ -26,7 +28,7 @@ public partial class MultiSelectDialogPage : ContentPage
         await Navigation.PopModalAsync();
     }
 
-    public partial class Item: INotifyPropertyChanged
+    public partial class Item : INotifyPropertyChanged
     {
         public string Title { get; set; }
         public object Value { get; set; }
@@ -45,14 +47,21 @@ public partial class MultiSelectDialogPage : ContentPage
         {
             item.Checked = false;
         }
+
+        //Workround for UI problem
+        ItemsCollectionView.ItemsSource = null;
+        ItemsCollectionView.ItemsSource = Items;
     }
 
     private void OnRevertSelectClicked(object? sender, EventArgs e)
     {
-        
         foreach (Item item in Items)
         {
             item.Checked = !item.Checked;
         }
+
+        //Workround for UI problem
+        ItemsCollectionView.ItemsSource = null;
+        ItemsCollectionView.ItemsSource = Items;
     }
 }

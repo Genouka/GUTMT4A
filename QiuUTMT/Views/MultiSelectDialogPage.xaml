@@ -8,9 +8,8 @@
         <Button Grid.Row="0" Grid.Column="0" Text="返回" Clicked="OnConfirmClicked" />
         <Button Grid.Row="0" Grid.Column="1" Text="清空" Clicked="OnClearClicked" />
         <Button Grid.Row="0" Grid.Column="2" Text="反选" Clicked="OnRevertSelectClicked" />
-        <CollectionView Grid.Row="1" Grid.ColumnSpan="3"  x:Name="ItemsCollectionView"
-                        SelectionMode="None"
-                        SelectedItems="{Binding SelectedItems}">
+        <CollectionView Grid.Row="1" Grid.ColumnSpan="3"
+                        x:Name="ItemsCollectionView">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid Padding="0">
@@ -20,7 +19,7 @@
                         </Grid.ColumnDefinitions>
                         <CheckBox Grid.Column="0" Grid.Row="0"
                                   HorizontalOptions="End" VerticalOptions="Center"
-                                  IsChecked="{Binding Checked}" />
+                                  IsChecked="{Binding Checked,Mode=TwoWay}" />
                         <Label Grid.Column="1" Grid.Row="0" Text="{Binding Title}"
                                FontAttributes="Bold"
                                VerticalOptions="Center" />
