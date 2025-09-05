@@ -1,4 +1,5 @@
-﻿using UndertaleModLib;
+﻿using System.Diagnostics;
+using UndertaleModLib;
 
 namespace QiuUTMT.ViewableEditor.Editors;
 
@@ -9,7 +10,7 @@ public abstract class EditorPage : ContentPage
 
     public EditorPage(object dataContext)
     {
-        this.DataContext = dataContext;
+        DataContext = dataContext;
         TaskCompletion = new TaskCompletionSource<bool>();
     }
 
@@ -22,6 +23,11 @@ public abstract class EditorPage : ContentPage
     protected override bool OnBackButtonPressed()
     {
         TaskCompletion.TrySetResult(true);
+        Debug.WriteLine("Hint:EditorPage back button pressed");
         return base.OnBackButtonPressed();
+    }
+    ~EditorPage()
+    {
+        TaskCompletion.TrySetResult(false);
     }
 }

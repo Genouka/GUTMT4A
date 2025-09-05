@@ -12,7 +12,7 @@ public class Bindme
     public static async Task<bool> dAskDialog(string title, string message)
     {
         var tcs = new TaskCompletionSource<bool>();
-        System.Threading.Thread.Sleep(3000);
+        System.Threading.Thread.Sleep(1200);
         MainThread.BeginInvokeOnMainThread(async () =>
         {
             var msgbox = MessageDialog.Show(title,message, "是", "否")
@@ -28,7 +28,7 @@ public class Bindme
             new System.Threading.Thread(() =>
             {
                 while(true){
-                    System.Threading.Thread.Sleep(3000);
+                    System.Threading.Thread.Sleep(1200);
                     if (!msgbox.IsShow&&!tcs.Task.IsCompleted)
                         MainThread.BeginInvokeOnMainThread(async () => { msgbox.Show(); });
                     else
@@ -42,7 +42,7 @@ public class Bindme
     public static async Task<string> dInputDialog(string title, string message)
     {
         var tcs = new TaskCompletionSource<string>();
-        System.Threading.Thread.Sleep(3000);
+        System.Threading.Thread.Sleep(1200);
         MainThread.BeginInvokeOnMainThread(async () =>
         {
             var msgbox = InputDialog.Show(title, message, "是")

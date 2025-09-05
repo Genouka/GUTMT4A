@@ -5,13 +5,18 @@ namespace QiuUTMT.ViewableEditor.Tools;
 
 public class SpriteEditorTools
 {
-    public static async void ExportAllSpine(UndertaleSprite sprite)
+    /// <summary>
+    /// 导出所有图像的帧
+    /// NOTICE: 必须在线程执行
+    /// </summary>
+    /// <param name="sprite"></param>
+    public static void ExportAllSpine(UndertaleSprite sprite)
     {
         CommonTools.ShowWarning(
-            "This seems to be a Spine sprite, .json and .atlas files will be exported together with the frames. " +
-            "PLEASE EDIT THEM CAREFULLY! SOME MANUAL EDITING OF THE JSON MAY BE REQUIRED! THE DATA IS EXPORTED AS-IS.",
-            "Spine warning");
-        var savePath = await MAUIBridge.PickFolder(CancellationToken.None);
+            "所有帧的图片都会被导出,包括描述帧关系的 .json 和 .atlas 文件。\n" +
+            "文件将按原样导出，如果必要请同时更改附带的 .json 文件。",
+            "提醒");
+        var savePath = MAUIBridge.PickFolder(CancellationToken.None).Result;
         if (savePath != null)
         {
             try
@@ -36,7 +41,8 @@ public class SpriteEditorTools
                             }
                             catch (Exception ex)
                             {
-                                CommonTools.ShowError("Failed to export file: " + ex.Message, "Failed to export file");
+                                CommonTools.ShowError("导出失败： " + ex.Message,
+                                    "导出错误");
                             }
                         }
                     }
@@ -48,7 +54,7 @@ public class SpriteEditorTools
             }
             catch (Exception ex)
             {
-                CommonTools.ShowError("Failed to export: " + ex.Message, "Failed to export sprite");
+                CommonTools.ShowError("导出错误: " + ex.Message, "无法导出精灵图");
             }
         }
     }

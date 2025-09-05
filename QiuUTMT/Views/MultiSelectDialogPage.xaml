@@ -4,9 +4,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="QiuUTMT.MultiSelectDialogPage"
              Title="请选择">
-    <Grid RowDefinitions="Auto,*">
-        <Button Grid.Row="0" Text="选择完毕后按下系统返回键或者这个按钮返回" Clicked="OnConfirmClicked" />
-        <CollectionView Grid.Row="1"  x:Name="ItemsCollectionView"
+    <Grid RowDefinitions="Auto,*" ColumnDefinitions="Auto,Auto,Auto">
+        <Button Grid.Row="0" Grid.Column="0" Text="返回" Clicked="OnConfirmClicked" />
+        <Button Grid.Row="0" Grid.Column="1" Text="清空" Clicked="OnClearClicked" />
+        <Button Grid.Row="0" Grid.Column="2" Text="反选" Clicked="OnRevertSelectClicked" />
+        <CollectionView Grid.Row="1" Grid.ColumnSpan="3"  x:Name="ItemsCollectionView"
                         SelectionMode="None"
                         SelectedItems="{Binding SelectedItems}">
             <CollectionView.ItemTemplate>
@@ -19,7 +21,7 @@
                         <CheckBox Grid.Column="0" Grid.Row="0"
                                   HorizontalOptions="End" VerticalOptions="Center"
                                   IsChecked="{Binding Checked}" />
-                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding Name}"
+                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding Title}"
                                FontAttributes="Bold"
                                VerticalOptions="Center" />
                     </Grid>

@@ -133,6 +133,7 @@ public partial class DataTreePage : ContentPage
                     IndentLevel = 0
                 });
             }
+
             Properties.AddRange(propertiesList);
             TreeOrder.IsEnabled = true;
         }
@@ -174,10 +175,12 @@ public partial class DataTreePage : ContentPage
 
             Properties.AddRange(propertiesList);
         }
-        if (EditorPages.EditorPagesConstructors.TryGetValue(_currentObject.GetType(),out var _))
+
+        if (EditorPages.EditorPagesConstructors.TryGetValue(_currentObject.GetType(), out var _))
         {
             ViewableEditor.IsEnabled = true;
         }
+
         if (string.IsNullOrEmpty(filter))
         {
             StatusMessage = $"已加载 {Properties.Count} 个属性";
@@ -204,7 +207,7 @@ public partial class DataTreePage : ContentPage
 
             var type = value.GetType();
             if (type.IsEnum)
-                return $"枚举[{type.Name}]{(ulong)value} ({value})";
+                return $"枚举[{type.Name}]{Convert.ToUInt64(value)} ({value})";
 
             if (type.IsPrimitive || type == typeof(string))
                 return value.ToString() ?? "[string]null";
@@ -238,14 +241,14 @@ public partial class DataTreePage : ContentPage
 
             if (value is UndertaleNamedResource undertaleNamedResource)
             {
-                if(undertaleNamedResource.Name != null) title += undertaleNamedResource.Name.Content ?? "";
+                if (undertaleNamedResource.Name != null) title += undertaleNamedResource.Name.Content ?? "";
             }
 
             return title;
         }
         catch (Exception ex)
         {
-            return "<错误>"+ex.Message;
+            return "<错误>" + ex.Message;
         }
     }
 
@@ -337,14 +340,17 @@ public partial class DataTreePage : ContentPage
         if (type.IsEnum)
         {
             var list = new List<MultiSelectDialogPage.Item>();
-            ulong enumValues = (ulong)(item.OriginalValue ?? 0);
-            foreach (ulong value in Enum.GetValues(type))
+            // Enum 的所有数值类型都可以不丢失精度地转换为 ulong
+            ulong currentEnumValue = Convert.ToUInt64(item.OriginalValue ?? 0ul);
+
+            foreach (object value in Enum.GetValues(type))
             {
-                
+                ulong enumValue = Convert.ToUInt64(value);
                 list.Add(new MultiSelectDialogPage.Item
                 {
-                    Name = Enum.GetName(type,value) ?? ("" + value),
-                    Checked = (enumValues&value) == value
+                    Title = ("[" + enumValue + "]") + (Enum.GetName(type, value) ?? ""),
+                    Value = (Enum.GetName(type, value) ?? ""),
+                    Checked = (currentEnumValue & enumValue) == enumValue
                 });
             }
 
@@ -356,10 +362,10 @@ public partial class DataTreePage : ContentPage
             StringBuilder str = new();
             foreach (MultiSelectDialogPage.Item popupItem in popup.Items)
             {
-                if (popupItem.Checked) str.Append(popupItem.Name).Append(',');
+                if (popupItem.Checked) str.Append((string)(popupItem.Value)).Append(',');
             }
 
-            newText = str.ToString(0, str.Length - 1);
+            newText = str.ToString(0, str.Length - 1); //去掉末位多余的逗号
         }
         else
         {
@@ -453,9 +459,11 @@ public partial class DataTreePage : ContentPage
         var currentObject = _objectStack.Peek();
         var currentName = _nameStack.Peek();
         const String optionCreateObject = "新增对象";
+        const String optionClearList = "清空列表";
         var list = new[]
         {
-            optionCreateObject
+            optionCreateObject,
+            optionClearList
         };
         string action = await DisplayActionSheet($"操作 {currentName}", "取消", null, list);
         if (action == null) return;
@@ -476,19 +484,27 @@ public partial class DataTreePage : ContentPage
                 }
 
                 break;
+            case optionClearList:
+                if (currentObject is IList currentList1)
+                {
+                    currentList1.Clear();
+                    RefreshListUI();
+                }
+
+                break;
         }
     }
 
     private async void ViewableEditor_OnClicked(object? sender, EventArgs e)
     {
         var currentObject = _objectStack.Peek();
-        var currentName = _nameStack.Peek();
         if (!EditorPages.EditorPagesConstructors.TryGetValue(currentObject.GetType(), out var instantiator))
         {
             await DisplayAlert("错误", "当前对象没有可用的扩充视图", "OK");
         }
-        var page=instantiator(currentObject);
-        await Navigation.PushModalAsync(page);
+
+        var page = instantiator(currentObject);
+        await Navigation.PushAsync(page);
         await page.TaskCompletion.Task;
         RefreshListUI();
     }

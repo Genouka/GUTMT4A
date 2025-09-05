@@ -27,7 +27,8 @@ public partial class MultiSelectDialogPage : ContentPage
 
     public partial class Item
     {
-        public string Name { get; set; }
+        public string Title { get; set; }
+        public object Value { get; set; }
         public bool Checked { get; set; }
     }
 
@@ -35,5 +36,23 @@ public partial class MultiSelectDialogPage : ContentPage
     {
         TaskCompletion.TrySetResult(true);
         return base.OnBackButtonPressed();
+    }
+
+    private void OnClearClicked(object? sender, EventArgs e)
+    {
+        foreach (Item item in Items)
+        {
+            item.Checked = false;
+        }
+        ItemsCollectionView.ItemsSource = Items;
+    }
+
+    private void OnRevertSelectClicked(object? sender, EventArgs e)
+    {
+        foreach (Item item in Items)
+        {
+            item.Checked = !item.Checked;
+        }
+        ItemsCollectionView.ItemsSource = Items;
     }
 }
