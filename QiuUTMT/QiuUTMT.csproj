@@ -116,6 +116,9 @@
       <MauiXaml Update="Pages\DataTreePage.xaml">
         <SubType>Designer</SubType>
       </MauiXaml>
+      <MauiXaml Update="ViewableEditor\Editors\GMLCodeEditor.xaml">
+        <SubType>Designer</SubType>
+      </MauiXaml>
     </ItemGroup>
 
     <ItemGroup>
@@ -137,6 +140,10 @@
       </Compile>
       <Compile Update="Pages\DataTreePage.xaml.cs">
         <DependentUpon>DetailInfoInternativePage.xaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="ViewableEditor\Editors\GMLCodeEditor.xaml.cs">
+        <DependentUpon>GMLCodeEditor.xaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

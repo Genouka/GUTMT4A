@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<editors:EditorPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:editors="clr-namespace:QiuUTMT.ViewableEditor.Editors"
+                    xmlns:qiuUtmt="clr-namespace:QiuUTMT"
+                    x:Class="QiuUTMT.ViewableEditor.Editors.GMLCodeEditor"
+                    Title="GUTMT - 代码编辑扩充视窗">
+    <Grid RowDefinitions="Auto,Auto,*">
+        <Label Grid.Row="0" Text="切记：在该页面返回不会保存结果" />
+        <ScrollView Grid.Row="1" Orientation="Horizontal">
+            <StackLayout Orientation="Horizontal">
+                <Switch Toggled="Switch_DecodeMode_OnToggled" VerticalOptions="Center" />
+                <Label Text="反编译/反汇编" VerticalOptions="Center" />
+                <Button Text="保存" Clicked="Button_SaveCode_OnClicked" />
+            </StackLayout>
+        </ScrollView>
+        <qiuUtmt:SoraEditor Grid.Row="2"
+                            x:Name="SoraEditor" />
+    </Grid>
+
+</editors:EditorPage>

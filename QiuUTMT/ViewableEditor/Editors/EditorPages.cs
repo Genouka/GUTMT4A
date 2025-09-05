@@ -8,6 +8,7 @@ public class EditorPages
     public delegate TResult FuncWithArg1<out TResult>(object a) where TResult : allows ref struct;
     public static readonly Dictionary<Type,FuncWithArg1<EditorPage>> EditorPagesConstructors = new()
     {
-        {typeof(UndertaleSprite), (d)=>new SpriteEditor(d)}
+        {typeof(UndertaleSprite), (d)=>new SpriteEditor(d)},
+        {typeof(UndertaleCode), (d)=>new GMLCodeEditor(d)}
     };
 }

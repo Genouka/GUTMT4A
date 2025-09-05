@@ -28,8 +28,10 @@ namespace UTMTdrid;
 /// <summary>
 /// Main CLI Program
 /// </summary>
-
-[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods| DynamicallyAccessedMemberTypes.PublicProperties| DynamicallyAccessedMemberTypes.PublicEvents| DynamicallyAccessedMemberTypes.PublicConstructors)]
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods |
+                            DynamicallyAccessedMemberTypes.PublicProperties |
+                            DynamicallyAccessedMemberTypes.PublicEvents |
+                            DynamicallyAccessedMemberTypes.PublicConstructors)]
 public partial class QiuFuncMain : IScriptInterface
 {
     #region Properties
@@ -77,7 +79,9 @@ public partial class QiuFuncMain : IScriptInterface
     private CancellationToken cToken;
 
     private string savedMsg, savedStatus;
+
     private double savedValue, savedValueMax;
+
     //private Page? MAUI_Page;
     private static DelegateOutput? Genouka_callback;
 
@@ -98,7 +102,6 @@ public partial class QiuFuncMain : IScriptInterface
     /// </summary>
     /// <param name="args">Arguments passed on to program.</param>
     /// <returns>Result code of the program.</returns>
-    
     [DynamicDependency("DecompilerSettings", "ToolInfo", "UndertaleModLib")]
     public QiuFuncMain(FileInfo datafile, FileInfo[] scripts, FileInfo output, bool verbose = false,
         bool interactive = false)
@@ -118,20 +121,20 @@ public partial class QiuFuncMain : IScriptInterface
         try
         {
             var cliscript = ScriptOptions.Default;
-            cliscript=cliscript.WithAllowUnsafe(true);
-            cliscript=cliscript.WithEmitDebugInformation(true);
+            cliscript = cliscript.WithAllowUnsafe(true);
+            cliscript = cliscript.WithEmitDebugInformation(true);
             //var t=new UndertaleModLib.ToolInfo();
-            cliscript=cliscript.AddImports("UndertaleModLib", "UndertaleModLib.Models", "UndertaleModLib.Decompiler",
-                    "UndertaleModLib.Scripting", "UndertaleModLib.Compiler",
-                    "UndertaleModLib.Util", "System", "System.IO", "System.Collections.Generic",
-                    "System.Text.RegularExpressions");
-            cliscript=cliscript.AddReferences(typeof(UndertaleObject).GetTypeInfo().Assembly,
-                    GetType().GetTypeInfo().Assembly,
-                    typeof(JsonConvert).GetTypeInfo().Assembly,
-                    typeof(System.Text.RegularExpressions.Regex).GetTypeInfo().Assembly,
-                    typeof(TextureWorker).GetTypeInfo().Assembly,
-                    typeof(ImageMagick.MagickImage).GetTypeInfo().Assembly,
-                    typeof(Underanalyzer.Decompiler.DecompileContext).Assembly);
+            cliscript = cliscript.AddImports("UndertaleModLib", "UndertaleModLib.Models", "UndertaleModLib.Decompiler",
+                "UndertaleModLib.Scripting", "UndertaleModLib.Compiler",
+                "UndertaleModLib.Util", "System", "System.IO", "System.Collections.Generic",
+                "System.Text.RegularExpressions");
+            cliscript = cliscript.AddReferences(typeof(UndertaleObject).GetTypeInfo().Assembly,
+                GetType().GetTypeInfo().Assembly,
+                typeof(JsonConvert).GetTypeInfo().Assembly,
+                typeof(System.Text.RegularExpressions.Regex).GetTypeInfo().Assembly,
+                typeof(TextureWorker).GetTypeInfo().Assembly,
+                typeof(ImageMagick.MagickImage).GetTypeInfo().Assembly,
+                typeof(Underanalyzer.Decompiler.DecompileContext).Assembly);
             this.CliScriptOptions = cliscript;
         }
         catch (Exception ee)
@@ -916,10 +919,44 @@ public partial class QiuFuncMain : IScriptInterface
     {
         Genouka_callback = callback;
         //this.MAUI_Page = page;
+
+        //静态预检查脚本可能存在的问题
+        string lintString = "";
+        if (code.Contains("System.Windows.Media"))
+        {
+            lintString += "* [严重]包含仅限Windows可用的System.Windows.Media，强行运行可能会崩溃\n";
+        }
+
+        if (code.Contains("System.Windows.Forms"))
+        {
+            lintString += "* [警告]包含仅限Windows可用的System.Windows.Forms，强行运行可能会崩溃\n";
+        }
+
+        if (code.Contains("UndertaleModTool."))
+        {
+            lintString += "* [严重]这个脚本只支持在UndertaleModTool GUI运行\n";
+        }
+
+        if (code.Contains("TextureWorker") && !code.Contains("TextureWorkerSkia"))
+        {
+            lintString += "* [警告]这个脚本引用了不兼容的TextureWorker，请手动在代码中替换为TextureWorkerSkia即可解决\n";
+        }
+
+        if (lintString != "")
+        {
+            callback("***********************\n"+lintString+"\n***********************\n");
+            lintString += "发现该脚本存在以上问题，可能无法正常运行，是否要坚持运行？";
+            if (!MAUIBridge.AskDialog("预检查问题", lintString).Result)
+            {
+                callback("用户手动取消了运行该脚本\n");
+                return;
+            }
+        }
+
         if (Verbose)
             callback($"尝试执行 '{scriptFile ?? "代码段"}'...\n");
-        
-        var task=CSharpScript
+
+        var task = CSharpScript
             .EvaluateAsync(code, CliScriptOptions.WithFilePath(scriptFile ?? "").WithFileEncoding(Encoding.UTF8),
                 this, typeof(IScriptInterface));
         try
@@ -930,7 +967,7 @@ public partial class QiuFuncMain : IScriptInterface
         }
         catch (Exception exc)
         {
-            if(cTokenSource!=null) cTokenSource.Cancel();
+            if (cTokenSource != null) cTokenSource.Cancel();
             ScriptExecutionSuccess = false;
             ScriptErrorMessage = exc.ToString();
             ScriptErrorType = "Exception";
@@ -1128,6 +1165,7 @@ public partial class QiuFuncMain : IScriptInterface
         if (Genouka_callback is not null) Genouka_callback(thing);
         else Debug.Write(thing);
     }
+
     public static void clearCallbacks()
     {
         Genouka_callback = null;
